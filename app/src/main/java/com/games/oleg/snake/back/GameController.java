@@ -53,7 +53,9 @@ public class GameController {
     }
 
     public void moveDown() {
-
+        Position headPosition = snake.getHeadPosition();
+        Position newHeadPosition = new Position(headPosition.getX(), headPosition.getY()+1);
+        moveIfFree(newHeadPosition);
     }
 
     private void moveIfFree(Position futureHeadPosition) {

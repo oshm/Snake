@@ -5,13 +5,23 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.games.oleg.snake.back.Field;
+import com.games.oleg.snake.back.GameController;
+
 
 public class GameActivity extends Activity {
+    GameController gameController;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        gameController = new GameController();
+        gameController.moveDown();
+        Field field = gameController.getField();
+        String boo = "";
     }
 
 
