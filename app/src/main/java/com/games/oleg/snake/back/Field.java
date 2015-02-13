@@ -4,6 +4,7 @@ import com.games.oleg.snake.back.cells.BodyCell;
 import com.games.oleg.snake.back.cells.Cell;
 import com.games.oleg.snake.back.cells.FinishCell;
 import com.games.oleg.snake.back.cells.HeadCell;
+import com.games.oleg.snake.back.cells.ObstacleCell;
 import com.games.oleg.snake.back.cells.StartCell;
 import com.games.oleg.snake.back.exceptions.OutOfFieldException;
 
@@ -48,13 +49,13 @@ public class Field {
             return false;
     }
 
-    public Cell getCell(Position position) throws OutOfFieldException{
+    public Cell getCell(Position position) {
         int x = position.getX();
         int y = position.getY();
         if (x >= size)
-            throw new OutOfFieldException(x, size, "X");
+            return new ObstacleCell(x,y);
         else  if (y >= size)
-            throw new OutOfFieldException(y, size, "Y");
+            return new ObstacleCell(x,y);
 
         return grid[x][y];
     }

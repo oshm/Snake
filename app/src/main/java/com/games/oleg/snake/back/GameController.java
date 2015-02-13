@@ -28,19 +28,19 @@ public class GameController {
 
     public void moveSnake(String direction) {
         if (direction == "left")
-            snake.moveLeft();
+            moveLeft();
         else if (direction == "right")
-            snake.moveRight();
+            moveRight();
         else if (direction == "up")
-            snake.moveUp();
+            moveUp();
         else if (direction == "down")
-            snake.moveDown();
+            moveDown();
     }
 
     public void moveLeft() {
         Position headPosition = snake.getHeadPosition();
         Position newHeadPosition = new Position(headPosition.getX() - 1, headPosition.getY());
-        
+        moveIfFree(newHeadPosition);
 
     }
 
@@ -56,15 +56,14 @@ public class GameController {
 
     }
 
-    private void moveIfFree(Position futureHeadPosition)
-            throws OutOfFieldException{
+    private void moveIfFree(Position futureHeadPosition) {
         if (!field.isInField(futureHeadPosition))
             return;
 
         Cell futureHeadCell = field.getCell(futureHeadPosition);
         if (futureHeadCell instanceof EmptyCell) {
             field.setNewHead(snake.getHeadPosition(), futureHeadPosition);
-            snake.se
+            //snake.se
         }
 
 
