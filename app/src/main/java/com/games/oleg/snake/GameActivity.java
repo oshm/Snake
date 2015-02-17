@@ -19,7 +19,11 @@ public class GameActivity extends Activity {
         setContentView(R.layout.activity_game);
 
         gameController = new GameController();
+        gameController.startGame();
         gameController.moveDown();
+        gameController.moveDown();
+        gameController.moveRight();
+        gameController.moveRight();
         Field field = gameController.getField();
         String boo = "";
     }

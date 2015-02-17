@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level>
+    <size_x>8</size_x>
+    <size_y>8</size_y>
+    <obstacles>
+        3, 3
+        4, 4
+    </obstacles>
+</level>

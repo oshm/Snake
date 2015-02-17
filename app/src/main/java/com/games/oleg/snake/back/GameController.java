@@ -18,6 +18,18 @@ public class GameController {
         this.snake = new Snake(field.getStart().getPosition());
     }
 
+    public boolean isGameFinished() {
+        if (this.getSnake().getHeadPosition() == this.getField().getFinish().getPosition())
+            return true;
+        else
+            return false;
+    }
+
+    public void finishGame()
+    {
+        System.out.println("Game finished!");
+    }
+
     public Snake getSnake() {
         return this.snake;
     }
@@ -39,22 +51,26 @@ public class GameController {
 
     public void moveLeft() {
         Position headPosition = snake.getHeadPosition();
-        Position newHeadPosition = new Position(headPosition.getX() - 1, headPosition.getY());
+        Position newHeadPosition = new Position(headPosition.getY(), headPosition.getX()-1);
         moveIfFree(newHeadPosition);
 
     }
 
     public void moveRight() {
-
+        Position headPosition = snake.getHeadPosition();
+        Position newHeadPosition = new Position(headPosition.getY(), headPosition.getX()+1);
+        moveIfFree(newHeadPosition);
     }
 
     public void moveUp() {
-
+        Position headPosition = snake.getHeadPosition();
+        Position newHeadPosition = new Position(headPosition.getY()-1, headPosition.getX());
+        moveIfFree(newHeadPosition);
     }
 
     public void moveDown() {
         Position headPosition = snake.getHeadPosition();
-        Position newHeadPosition = new Position(headPosition.getX(), headPosition.getY()+1);
+        Position newHeadPosition = new Position(headPosition.getY()+1, headPosition.getX());
         moveIfFree(newHeadPosition);
     }
 
@@ -68,12 +84,6 @@ public class GameController {
             //snake.se
         }
 
-
-    }
-
-
-
-    public void gameFinished() {
 
     }
 

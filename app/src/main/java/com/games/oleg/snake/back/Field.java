@@ -2,6 +2,7 @@ package com.games.oleg.snake.back;
 
 import com.games.oleg.snake.back.cells.BodyCell;
 import com.games.oleg.snake.back.cells.Cell;
+import com.games.oleg.snake.back.cells.EmptyCell;
 import com.games.oleg.snake.back.cells.FinishCell;
 import com.games.oleg.snake.back.cells.HeadCell;
 import com.games.oleg.snake.back.cells.ObstacleCell;
@@ -22,12 +23,16 @@ public class Field {
         this.grid = new Cell[size][size];
         for (int i=0; i<size; i++){
             for (int j=0;j<size; j++){
-                grid[i][j] = new Cell(i, j);
+                grid[i][j] = new EmptyCell(i, j);
             }
         }
+        Position startPosition = new Position(0,0);
+        this.start = new StartCell(startPosition);
+        grid[startPosition.getY()][startPosition.getX()] = new StartCell(startPosition);
 
-        grid[0][0] = new StartCell(0,0);
-        grid[size][size] = new FinishCell(size, size);
+        Position finishPosition = new Position(size-1,size-1);
+        this.finish = new FinishCell(finishPosition);
+        grid[finishPosition.getY()][finishPosition.getX()] = new FinishCell(finishPosition);
     }
 
     public Cell[][] getGrid() {

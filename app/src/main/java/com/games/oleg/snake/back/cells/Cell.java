@@ -19,6 +19,7 @@ public class Cell implements ICell{
         return this.position;
     }
 
+    public int getX(){ return this.position.getX(); }
 
-
+    public int getY(){ return this.position.getY(); }
 }
