@@ -20,13 +20,15 @@ public class Field {
     private Cell [][] grid;
     private StartCell start;
     private FinishCell finish;
-    private int size;
+    private int sizeX;
+    private int sizeY;
 
     public Field(int size) {
-        this.size = size;
-        this.grid = new Cell[size][size];
-        for (int i=0; i<size; i++){
-            for (int j=0;j<size; j++){
+        this.sizeX = size;
+        this.sizeY = size;
+        this.grid = new Cell[sizeY][sizeX];
+        for (int i=0; i<sizeY; i++){
+            for (int j=0;j<sizeX; j++){
                 grid[i][j] = new EmptyCell(i, j);
             }
         }
@@ -39,6 +41,25 @@ public class Field {
         grid[finishPosition.getY()][finishPosition.getX()] = new FinishCell(finishPosition);
     }
 
+    public Field(int sizeX, int sizeY, int startX, int startY) {
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
+        this.grid = new Cell[sizeY][sizeX];
+        this.grid = new Cell[sizeY][sizeX];
+        for (int i=0; i<sizeY; i++){
+            for (int j=0;j<sizeX; j++){
+                grid[i][j] = new EmptyCell(i, j);
+            }
+        }
+
+        Position startPosition = new Position(sizeX,0);
+        this.start = new StartCell(startPosition);
+        grid[startPosition.getY()][startPosition.getX()] = new StartCell(startPosition);
+
+        Position finishPosition = new Position(size-1,size-1);
+        this.finish = new FinishCell(finishPosition);
+        grid[finishPosition.getY()][finishPosition.getX()] = new FinishCell(finishPosition);
+    }
 
     public void SetCellToPositions(Cell cellType, List<Position> positions) {
         for (Iterator<Position> p = positions.iterator(); p.hasNext();) {
