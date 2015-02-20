@@ -2,6 +2,8 @@
 <level>
     <size_x>8</size_x>
     <size_y>8</size_y>
+    <start_x>8</start_x>
+    <start_y>8</start_y>
     <obstacles>
         3, 3
         4, 4

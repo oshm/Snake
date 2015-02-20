@@ -5,9 +5,13 @@ import com.games.oleg.snake.back.cells.Cell;
 import com.games.oleg.snake.back.cells.EmptyCell;
 import com.games.oleg.snake.back.cells.FinishCell;
 import com.games.oleg.snake.back.cells.HeadCell;
+import com.games.oleg.snake.back.cells.ICell;
 import com.games.oleg.snake.back.cells.ObstacleCell;
 import com.games.oleg.snake.back.cells.StartCell;
 import com.games.oleg.snake.back.exceptions.OutOfFieldException;
+
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by oleg on 26.10.14.
@@ -33,6 +37,14 @@ public class Field {
         Position finishPosition = new Position(size-1,size-1);
         this.finish = new FinishCell(finishPosition);
         grid[finishPosition.getY()][finishPosition.getX()] = new FinishCell(finishPosition);
+    }
+
+
+    public void SetCellToPositions(Cell cellType, List<Position> positions) {
+        for (Iterator<Position> p = positions.iterator(); p.hasNext();) {
+            Position position = p.next();
+            grid[position.getY()][position.getX()] = cellType;
+        }
     }
 
     public Cell[][] getGrid() {

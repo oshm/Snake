@@ -1,6 +1,7 @@
 package com.games.oleg.snake;
 
 import android.app.Activity;
+import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,9 +18,9 @@ public class GameActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-
+        XmlResourceParser level = this.getResources().getXml(R.xml.level1);
         gameController = new GameController();
-        gameController.startGame();
+        gameController.startGame(level);
         gameController.moveDown();
         gameController.moveDown();
         gameController.moveRight();

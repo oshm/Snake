@@ -1,8 +1,15 @@
 package com.games.oleg.snake.back;
 
+import android.content.res.XmlResourceParser;
+import android.util.Xml;
+
 import com.games.oleg.snake.back.cells.Cell;
 import com.games.oleg.snake.back.cells.EmptyCell;
-import com.games.oleg.snake.back.exceptions.OutOfFieldException;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+
 
 /**
  * Created by oleg on 28.10.14.
@@ -11,12 +18,36 @@ public class GameController {
     private Snake snake;
     private Field field;
     private int size = 8;
+    private XmlParser xmlParser = new XmlParser();
 
+    public void startGame(XmlResourceParser level) {
+        /*
+        InputStream stream = null;
 
-    public void startGame() {
+        try {
+            FileInputStream fis = new FileInputStream("res//xml//level.xml");
+        } catch (FileNotFoundException ex) {
+            //
+            String foo="";
+        }
+*/
+        try {
+            xmlParser.parse(level);
+
+        } catch (Exception ex) {
+            //
+        }
+
         this.field = new Field(size);
         this.snake = new Snake(field.getStart().getPosition());
     }
+
+
+    private void readLevel(String xml)
+    {
+
+    }
+
 
     public boolean isGameFinished() {
         if (this.getSnake().getHeadPosition() == this.getField().getFinish().getPosition())
