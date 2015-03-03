@@ -24,7 +24,7 @@ public class XmlParser {
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             parser.setInput(in, null);
             parser.nextTag();
-            readFeed(parser);
+            parseLevel(parser);
         } finally {
             in.close();
         }
@@ -32,14 +32,14 @@ public class XmlParser {
 
     public void parse(XmlResourceParser parser) throws XmlPullParserException, IOException {
         try {
-            readLevel(parser);
+            parseLevel(parser);
         } finally {
             parser.close();
         }
     }
 
 
-    private void readLevel(XmlPullParser parser) throws XmlPullParserException, IOException {
+    private void parseLevel(XmlPullParser parser) throws XmlPullParserException, IOException {
         //parser.require(XmlPullParser.START_TAG, "ns", "level");
         while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
@@ -48,18 +48,19 @@ public class XmlParser {
             String name = parser.getName();
             // Starts by looking for the entry level
             if (name.equals("level")) {
-                readFeed(parser);
+                readLevel(parser);
             }
         }
     }
 
 
-    private void readFeed(XmlPullParser parser) throws XmlPullParserException, IOException {
-
-        String sizeX;
-        String sizeY;
-        String startX;
-        String startY;
+    private void readLevel(XmlPullParser parser) throws XmlPullParserException, IOException {
+        int sizeX = -1;
+        int sizeY = -1;
+        int startX = -1;
+        int startY = -1;
+        int finishX = -1;
+        int finishY = -1;
         String obstaclesStr;
         ArrayList<Position> obstacles = new ArrayList<Position>();
 
@@ -77,6 +78,10 @@ public class XmlParser {
                 startX = readIntParameter(parser);
             } else if (name.equals("start_y")) {
                 startY = readIntParameter(parser);
+            } else if (name.equals("finish_x")) {
+                finishX = readIntParameter(parser);
+            } else if (name.equals("finish_y")) {
+                finishY = readIntParameter(parser);
             } else if (name.equals("obstacles")) {
                 obstaclesStr = readObstacles(parser);
                 obstacles = CoordinatesStringToPositions(obstaclesStr);
@@ -84,6 +89,14 @@ public class XmlParser {
                 skip(parser);
             }
         }
+
+        //TODO exceptions for case -1 (when parameter not found in xml)
+        //if (sizeX < 0 )
+
+
+
+
+        Field levelField = new Field(sizeX, sizeY, startX, startY, finishX, finishY);
 
         String boo="";
     }
@@ -105,24 +118,27 @@ public class XmlParser {
     }
 
 
-    private String readIntParameter(XmlPullParser parser) throws IOException, XmlPullParserException {
+    private int readIntParameter(XmlPullParser parser) throws IOException, XmlPullParserException {
         String parameter = readText(parser);
-        return parameter;
+        int intParameter = Integer.parseInt(parameter);
+        return intParameter;
     }
 
 
-    private String readSizeX(XmlPullParser parser) throws IOException, XmlPullParserException {
+    private int readSizeX(XmlPullParser parser) throws IOException, XmlPullParserException {
         parser.require(XmlPullParser.START_TAG, ns, "size_x");
-        String size_x = readText(parser);
+        String sizeX = readText(parser);
         parser.require(XmlPullParser.END_TAG, ns, "size_x");
-        return size_x;
+        int intSizeX = Integer.parseInt(sizeX);
+        return intSizeX;
     }
 
-    private String readSizeY(XmlPullParser parser) throws IOException, XmlPullParserException {
+    private int readSizeY(XmlPullParser parser) throws IOException, XmlPullParserException {
         parser.require(XmlPullParser.START_TAG, ns, "size_y");
-        String size_y = readText(parser);
+        String sizeY = readText(parser);
         parser.require(XmlPullParser.END_TAG, ns, "size_y");
-        return size_y;
+        int intSizeY = Integer.parseInt(sizeY);
+        return intSizeY;
     }
     // For the tags title and summary, extracts their text values.
     private String readText(XmlPullParser parser) throws IOException, XmlPullParserException {

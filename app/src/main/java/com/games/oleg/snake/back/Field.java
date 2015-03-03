@@ -10,6 +10,7 @@ import com.games.oleg.snake.back.cells.ObstacleCell;
 import com.games.oleg.snake.back.cells.StartCell;
 import com.games.oleg.snake.back.exceptions.OutOfFieldException;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -41,7 +42,8 @@ public class Field {
         grid[finishPosition.getY()][finishPosition.getX()] = new FinishCell(finishPosition);
     }
 
-    public Field(int sizeX, int sizeY, int startX, int startY) {
+    public Field(int sizeX, int sizeY, int startX, int startY,
+                 int finishX, int finishY, ArrayList<Position> obstacles) {
         this.sizeX = sizeX;
         this.sizeY = sizeY;
         this.grid = new Cell[sizeY][sizeX];
@@ -52,13 +54,15 @@ public class Field {
             }
         }
 
-        Position startPosition = new Position(sizeX,0);
+        Position startPosition = new Position(startX, startY);
         this.start = new StartCell(startPosition);
         grid[startPosition.getY()][startPosition.getX()] = new StartCell(startPosition);
 
-        Position finishPosition = new Position(size-1,size-1);
+        Position finishPosition = new Position(finishX, finishY);
         this.finish = new FinishCell(finishPosition);
         grid[finishPosition.getY()][finishPosition.getX()] = new FinishCell(finishPosition);
+
+        SetCellToPositions(new ObstacleCell(0,0), obstacles );
     }
 
     public void SetCellToPositions(Cell cellType, List<Position> positions) {
@@ -81,7 +85,7 @@ public class Field {
     }
 
     public boolean isInField(Position position) {
-        if ( (position.getX() <= size) && (position.getY()<=size) )
+        if ( (position.getX() <= sizeX) && (position.getY()<=sizeY) )
             return true;
         else
             return false;
@@ -90,9 +94,9 @@ public class Field {
     public Cell getCell(Position position) {
         int x = position.getX();
         int y = position.getY();
-        if (x >= size)
+        if (x >= sizeX)
             return new ObstacleCell(x,y);
-        else  if (y >= size)
+        else  if (y >= sizeY)
             return new ObstacleCell(x,y);
 
         return grid[x][y];
