@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.games.oleg.snake.back.Field;
-import com.games.oleg.snake.back.GameController;
+import com.games.oleg.snake.back.models.Field;
+import com.games.oleg.snake.back.controllers.GameController;
 
 
 public class GameActivity extends Activity {

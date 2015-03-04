@@ -1,14 +1,12 @@
-package com.games.oleg.snake.back;
+package com.games.oleg.snake.back.controllers;
 
 import android.content.res.XmlResourceParser;
-import android.util.Xml;
 
-import com.games.oleg.snake.back.cells.Cell;
-import com.games.oleg.snake.back.cells.EmptyCell;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import com.games.oleg.snake.back.models.Field;
+import com.games.oleg.snake.back.models.Position;
+import com.games.oleg.snake.back.models.Snake;
+import com.games.oleg.snake.back.models.cells.Cell;
+import com.games.oleg.snake.back.models.cells.CellType;
 
 
 /**
@@ -39,7 +37,7 @@ public class GameController {
         }
 
         this.field = new Field(size);
-        this.snake = new Snake(field.getStart().getPosition());
+        this.snake = new Snake(field.getStartPosition());
     }
 
 
@@ -50,7 +48,7 @@ public class GameController {
 
 
     public boolean isGameFinished() {
-        if (this.getSnake().getHeadPosition() == this.getField().getFinish().getPosition())
+        if (this.getSnake().getHeadPosition() == this.getField().getFinishPosition())
             return true;
         else
             return false;
@@ -110,9 +108,9 @@ public class GameController {
             return;
 
         Cell futureHeadCell = field.getCell(futureHeadPosition);
-        if (futureHeadCell instanceof EmptyCell) {
+        if (futureHeadCell.getCellType() == CellType.EmptyCell ) {
             field.setNewHead(snake.getHeadPosition(), futureHeadPosition);
-            //snake.se
+            snake.setHead(futureHeadPosition);
         }
 
 

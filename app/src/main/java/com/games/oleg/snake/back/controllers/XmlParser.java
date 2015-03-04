@@ -1,7 +1,10 @@
-package com.games.oleg.snake.back;
+package com.games.oleg.snake.back.controllers;
 
 import android.content.res.XmlResourceParser;
 import android.util.Xml;
+
+import com.games.oleg.snake.back.models.Field;
+import com.games.oleg.snake.back.models.Position;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -9,7 +12,6 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by oleg.shlemin on 19.02.2015.
@@ -96,7 +98,7 @@ public class XmlParser {
 
 
 
-        Field levelField = new Field(sizeX, sizeY, startX, startY, finishX, finishY);
+        Field levelField = new Field(sizeX, sizeY, startX, startY, finishX, finishY, obstacles);
 
         String boo="";
     }

@@ -1,6 +1,6 @@
-package com.games.oleg.snake.back.cells;
+package com.games.oleg.snake.back.models.cells;
 
-import com.games.oleg.snake.back.Position;
+import com.games.oleg.snake.back.models.Position;
 
 /**
  * Created by oleg on 26.10.14.

@@ -1,4 +1,4 @@
-package com.games.oleg.snake.back;
+package com.games.oleg.snake.back.models;
 
 /**
  * Created by oleg on 28.10.14.
