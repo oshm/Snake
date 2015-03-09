@@ -11,16 +11,21 @@ import com.games.oleg.snake.back.controllers.GameController;
 
 
 public class GameActivity extends Activity {
-    GameController gameController;
-
+    private GameController gameController;
+    private GameView gameView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
+
+        //setContentView(R.layout.activity_game);
         XmlResourceParser level = this.getResources().getXml(R.xml.level1);
-        gameController = new GameController();
         gameController.startGame(level);
+
+        gameController = new GameController();
+        gameView = new GameView(this, gameController.getField());
+        setContentView(gameView);
+
         gameController.moveDown();
         gameController.moveDown();
         gameController.moveRight();
@@ -29,6 +34,9 @@ public class GameActivity extends Activity {
         String boo = "";
     }
 
+    public Field getField() {
+        return gameController.getField();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

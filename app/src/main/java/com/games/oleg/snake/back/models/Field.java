@@ -100,6 +100,15 @@ public class Field {
         this.grid[newHeadPosition.getY()][newHeadPosition.getX()] = new Cell(CellType.HeadCell);
     }
 
+    public int getSizeX() {
+        return sizeX;
+    }
+
+    public int getSizeY() {
+        return sizeY;
+    }
+
+
 
 
 }
