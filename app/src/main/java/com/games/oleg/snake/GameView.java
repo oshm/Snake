@@ -1,0 +1,119 @@
+package com.games.oleg.snake;
+
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.view.View;
+
+import com.games.oleg.snake.back.models.Field;
+import com.games.oleg.snake.back.models.cells.Cell;
+import com.games.oleg.snake.back.models.cells.CellType;
+
+/**
+ * Created by oleg on 09.03.15.
+ */
+public class GameView extends View {
+    private final GameActivity gameActivity;
+    private Cell[][] gridToDraw;
+    private int maxCellsX;        // number of cells in field horizontally
+    private int maxCellsY;        //number of cells in field vertically
+
+    private float width;            //width of one square
+    private float height;           //height of one square
+    private final Rect selRect = new Rect();
+
+
+    public GameView(Context context, Field fieldToDraw) {
+        super(context);
+        this.gameActivity = (GameActivity) context;
+        setFocusable(true);
+        setFocusableInTouchMode(true);
+        this.gridToDraw = fieldToDraw.getGrid();
+        maxCellsX = fieldToDraw.getSizeX();
+        maxCellsY = fieldToDraw.getSizeY();
+    }
+
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        width = w/(float) maxCellsX;
+        height = h/(float)maxCellsY;
+        super.onSizeChanged(w,h,oldw, oldh);
+    }
+
+    protected void onDraw(Canvas canvas) {
+        drawBackground(canvas);
+        drawGrid(canvas);
+        drawField(canvas);
+        //drawField(canvas);
+        // Draw the board...
+        // Define colours for grid lines
+
+    }
+
+    private void drawBackground(Canvas canvas) {
+        Paint background = new Paint();
+        background.setColor(getResources().getColor(R.color.game_background));
+        canvas.drawRect(0,0, getWidth(), getHeight(), background);
+    }
+
+    private void drawGrid(Canvas canvas) {
+        Paint gridColour = new Paint();
+        gridColour.setColor(getResources().getColor(R.color.grid_line));
+
+        for (int i = 0; i < maxCellsY; i++ ) {
+            canvas.drawLine(0, i*height, getWidth(), i*height,
+                    gridColour);
+            canvas.drawLine(0, i * height + 1, getWidth(), i * height
+                    + 1, gridColour);
+        }
+
+        for (int i = 0; i < maxCellsX; i++ ) {
+            canvas.drawLine(i * width, 0, i * width, getHeight(),
+                    gridColour);
+            canvas.drawLine(i * width + 1, 0, i * width + 1,
+                    getHeight(), gridColour);
+        }
+        /*
+        for (int i = 0; i < cellsCountY; i++) {
+            canvas.drawLine(0, i * height, getWidth(), i * height,
+                    gridColour);
+            canvas.drawLine(0, i * height + 1, getWidth(), i * height
+                    + 1, gridColour);
+            canvas.drawLine(i * width, 0, i * width, getHeight(),
+                    gridColour);
+            canvas.drawLine(i * width + 1, 0, i * width + 1,
+                    getHeight(), gridColour);
+        }
+        */
+    }
+
+    private void drawField(Canvas canvas) {
+        for (int currentY = 0; currentY < maxCellsY; currentY++) {
+            for (int currentX = 0; currentX < maxCellsX; currentX++) {
+                drawCell(canvas, currentX, currentY);
+            }
+        }
+    }
+
+    private void drawCell(Canvas canvas, int currentX, int currentY) {
+        Paint gridColour = new Paint();
+        gridColour.setColor(getResources().getColor(R.color.grid_line));
+
+        Cell cellToDraw = gridToDraw[currentY][currentX];
+        switch (cellToDraw.getCellType()) {
+            case HeadCell:
+                canvas.drawCircle(currentX*width + width/2, currentY*height + height/2,
+                        width/2, );
+        }
+        if (cellToDraw.getCellType() == CellType.BodyCell) {
+
+        }
+
+    }
+
+    public void updateField(Field updatedField) {
+        this.gridToDraw = updatedField.getGrid();
+        this.maxCellsX = updatedField.getSizeX();
+        this.cellsCountY = updatedField.getSizeY();
+    }
+}
