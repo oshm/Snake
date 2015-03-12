@@ -32,31 +32,37 @@ public class XmlParser {
         }
     }
 
-    public void parse(XmlResourceParser parser) throws XmlPullParserException, IOException {
+    public Field parse(XmlResourceParser parser) throws XmlPullParserException, IOException {
         try {
-            parseLevel(parser);
+            return parseLevel(parser);
         } finally {
             parser.close();
         }
     }
 
 
-    private void parseLevel(XmlPullParser parser) throws XmlPullParserException, IOException {
+    private Field parseLevel(XmlPullParser parser) throws XmlPullParserException, IOException {
         //parser.require(XmlPullParser.START_TAG, "ns", "level");
-        while (parser.next() != XmlPullParser.END_TAG) {
+        Field levelField;
+        levelField = new Field(5);
+
+        while (parser.next() != XmlPullParser.END_DOCUMENT) {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
                 continue;
             }
+
             String name = parser.getName();
             // Starts by looking for the entry level
             if (name.equals("level")) {
-                readLevel(parser);
+                levelField = readLevel(parser);
             }
         }
+
+        return levelField;
     }
 
 
-    private void readLevel(XmlPullParser parser) throws XmlPullParserException, IOException {
+    private Field readLevel(XmlPullParser parser) throws XmlPullParserException, IOException {
         int sizeX = -1;
         int sizeY = -1;
         int startX = -1;
@@ -94,25 +100,21 @@ public class XmlParser {
 
         //TODO exceptions for case -1 (when parameter not found in xml)
         //if (sizeX < 0 )
-
-
-
-
         Field levelField = new Field(sizeX, sizeY, startX, startY, finishX, finishY, obstacles);
 
-        String boo="";
+        return levelField;
     }
 
 
     private ArrayList<Position> CoordinatesStringToPositions(String coordinatesString) {
         ArrayList<Position> obstacles = new ArrayList<Position>();
-        String[] coordinates = coordinatesString.split("/n");
+        String[] coordinates = coordinatesString.split("\n");
         for (String coordinatesPairStr: coordinates) {
             String[] coordinatesPair = coordinatesPairStr.split(",");
             String xStr =  coordinatesPair[0].replaceAll("\\s+", "");
             String yStr = coordinatesPair[1].replaceAll("\\s+", "");
-            int x = Integer.parseInt("xStr");
-            int y = Integer.parseInt("yStr");
+            int x = Integer.parseInt(xStr);
+            int y = Integer.parseInt(yStr);
             obstacles.add(new Position(x, y));
         }
 

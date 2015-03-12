@@ -73,18 +73,6 @@ public class GameView extends View {
             canvas.drawLine(i * width + 1, 0, i * width + 1,
                     getHeight(), gridColour);
         }
-        /*
-        for (int i = 0; i < cellsCountY; i++) {
-            canvas.drawLine(0, i * height, getWidth(), i * height,
-                    gridColour);
-            canvas.drawLine(0, i * height + 1, getWidth(), i * height
-                    + 1, gridColour);
-            canvas.drawLine(i * width, 0, i * width, getHeight(),
-                    gridColour);
-            canvas.drawLine(i * width + 1, 0, i * width + 1,
-                    getHeight(), gridColour);
-        }
-        */
     }
 
     private void drawField(Canvas canvas) {
@@ -96,24 +84,39 @@ public class GameView extends View {
     }
 
     private void drawCell(Canvas canvas, int currentX, int currentY) {
-        Paint gridColour = new Paint();
-        gridColour.setColor(getResources().getColor(R.color.grid_line));
+
+        Paint cellColour = new Paint();
 
         Cell cellToDraw = gridToDraw[currentY][currentX];
+        Boolean boo = cellToDraw.getCellType() == CellType.HeadCell;
         switch (cellToDraw.getCellType()) {
-            case HeadCell:
-                canvas.drawCircle(currentX*width + width/2, currentY*height + height/2,
-                        width/2, );
+            case HeadCell: {
+                cellColour.setColor(getResources().getColor(R.color.snake_head));
+                canvas.drawCircle(currentX * width + width / 2, currentY * height + height / 2,
+                        width / 2, cellColour);
+                break;
+            }
+            case BodyCell: {
+                cellColour.setColor(getResources().getColor(R.color.snake_body));
+                canvas.drawCircle(currentX * width + width / 2, currentY * height + height / 2,
+                        width / 2, cellColour);
+                break;
+            }
+            case ObstacleCell: {
+                cellColour.setColor(getResources().getColor(R.color.obstacle));
+                canvas.drawCircle(currentX * width + width / 2, currentY * height + height / 2,
+                        width / 2, cellColour);
+                break;
+            }
         }
-        if (cellToDraw.getCellType() == CellType.BodyCell) {
 
-        }
 
     }
 
     public void updateField(Field updatedField) {
         this.gridToDraw = updatedField.getGrid();
         this.maxCellsX = updatedField.getSizeX();
-        this.cellsCountY = updatedField.getSizeY();
+        this.maxCellsY = updatedField.getSizeY();
+        this.invalidate();
     }
 }

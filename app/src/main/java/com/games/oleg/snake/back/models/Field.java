@@ -50,7 +50,7 @@ public class Field {
         }
 
         this.startPosition = new Position(startX, startY);
-        grid[startY][startX] = new Cell(CellType.StartCell);
+        grid[startY][startX] = new Cell(CellType.HeadCell);
 
         this.finishPosition = new Position(finishX, finishY);
         grid[finishY][finishX] = new Cell(CellType.FinishCell);

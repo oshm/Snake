@@ -5,6 +5,7 @@ import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 
 import com.games.oleg.snake.back.models.Field;
 import com.games.oleg.snake.back.controllers.GameController;
@@ -20,18 +21,17 @@ public class GameActivity extends Activity {
 
         //setContentView(R.layout.activity_game);
         XmlResourceParser level = this.getResources().getXml(R.xml.level1);
+        gameController = new GameController();
         gameController.startGame(level);
 
-        gameController = new GameController();
         gameView = new GameView(this, gameController.getField());
         setContentView(gameView);
 
-        gameController.moveDown();
-        gameController.moveDown();
-        gameController.moveRight();
-        gameController.moveRight();
-        Field field = gameController.getField();
-        String boo = "";
+        //gameController.moveDown();
+        //gameController.moveRight();
+        //gameController.moveRight();
+        //Field field = gameController.getField();
+        //String boo = "";
     }
 
     public Field getField() {
@@ -55,5 +55,16 @@ public class GameActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() != MotionEvent.ACTION_DOWN)
+            return super.onTouchEvent(event);
+        Boolean needUpdate = gameController.moveDown();
+        if (needUpdate)
+            gameView.updateField(gameController.getField());
+
+
+        return false;
     }
 }

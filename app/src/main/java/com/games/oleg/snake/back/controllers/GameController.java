@@ -19,25 +19,16 @@ public class GameController {
     private XmlParser xmlParser = new XmlParser();
 
     public void startGame(XmlResourceParser level) {
-        /*
-        InputStream stream = null;
+        //this.field = new Field(size);
 
         try {
-            FileInputStream fis = new FileInputStream("res//xml//level.xml");
-        } catch (FileNotFoundException ex) {
-            //
-            String foo="";
-        }
-*/
-        try {
-            xmlParser.parse(level);
+            this.field = xmlParser.parse(level);
 
         } catch (Exception ex) {
             //
         }
 
-        this.field = new Field(size);
-        this.snake = new Snake(field.getStartPosition());
+        this.snake = new Snake(this.field.getStartPosition());
     }
 
 
@@ -80,40 +71,42 @@ public class GameController {
 
     public void moveLeft() {
         Position headPosition = snake.getHeadPosition();
-        Position newHeadPosition = new Position(headPosition.getY(), headPosition.getX()-1);
+        Position newHeadPosition = new Position(headPosition.getX()-1, headPosition.getY());
         moveIfFree(newHeadPosition);
 
     }
 
     public void moveRight() {
         Position headPosition = snake.getHeadPosition();
-        Position newHeadPosition = new Position(headPosition.getY(), headPosition.getX()+1);
+        Position newHeadPosition = new Position(headPosition.getX()+1, headPosition.getY());
         moveIfFree(newHeadPosition);
     }
 
     public void moveUp() {
         Position headPosition = snake.getHeadPosition();
-        Position newHeadPosition = new Position(headPosition.getY()-1, headPosition.getX());
+        Position newHeadPosition = new Position(headPosition.getX(), headPosition.getY()-1);
         moveIfFree(newHeadPosition);
     }
 
-    public void moveDown() {
+    public boolean moveDown() {
         Position headPosition = snake.getHeadPosition();
-        Position newHeadPosition = new Position(headPosition.getY()+1, headPosition.getX());
-        moveIfFree(newHeadPosition);
+        Position newHeadPosition = new Position(headPosition.getX(), headPosition.getY()+1);
+        return moveIfFree(newHeadPosition);
     }
 
-    private void moveIfFree(Position futureHeadPosition) {
+    private boolean moveIfFree(Position futureHeadPosition) {
         if (!field.isInField(futureHeadPosition))
-            return;
+            return false;
 
         Cell futureHeadCell = field.getCell(futureHeadPosition);
         if (futureHeadCell.getCellType() == CellType.EmptyCell ) {
             field.setNewHead(snake.getHeadPosition(), futureHeadPosition);
             snake.setHead(futureHeadPosition);
+
+            return true;
         }
 
-
+        return false;
     }
 
 
