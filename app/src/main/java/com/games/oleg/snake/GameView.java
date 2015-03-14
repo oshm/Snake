@@ -22,7 +22,8 @@ public class GameView extends View {
     private float width;            //width of one square
     private float height;           //height of one square
     private final Rect selRect = new Rect();
-
+    float x = -30;
+    float y = -30;
 
     public GameView(Context context, Field fieldToDraw) {
         super(context);
@@ -44,10 +45,18 @@ public class GameView extends View {
         drawBackground(canvas);
         drawGrid(canvas);
         drawField(canvas);
-        //drawField(canvas);
-        // Draw the board...
-        // Define colours for grid lines
 
+        // for testing
+        Paint cellColour = new Paint();
+        cellColour.setColor(getResources().getColor(R.color.snake_body));
+        canvas.drawCircle(x, y, 30, cellColour);
+        //
+    }
+
+    public void updateTouched(float x, float y) {
+        this.x = x;
+        this.y = y;
+        this.invalidate();
     }
 
     private void drawBackground(Canvas canvas) {
@@ -81,6 +90,8 @@ public class GameView extends View {
                 drawCell(canvas, currentX, currentY);
             }
         }
+
+
     }
 
     private void drawCell(Canvas canvas, int currentX, int currentY) {
@@ -118,5 +129,13 @@ public class GameView extends View {
         this.maxCellsX = updatedField.getSizeX();
         this.maxCellsY = updatedField.getSizeY();
         this.invalidate();
+    }
+
+    public float getCellWidth() {
+        return this.width;
+    }
+
+    public float getCellHeight() {
+        return this.width;
     }
 }

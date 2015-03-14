@@ -109,7 +109,36 @@ public class GameController {
         return false;
     }
 
+    public boolean moveToPosition(Position positionToMove) {
+        if (!isPositionNearHeadAndEmpty(positionToMove))
+            return false;
+        field.setNewHead(snake.getHeadPosition(), positionToMove);
+        snake.setHead(positionToMove);
 
+        return true;
+    }
+
+    private boolean isPositionNearHeadAndEmpty(Position positionToMove) {
+        CellType futureCellType = field.getCell(positionToMove).getCellType();
+        if (futureCellType!= CellType.EmptyCell)
+            return false;
+
+        Position headPosition = this.getSnake().getHeadPosition();
+        int absX = (Math.abs(positionToMove.getX() - headPosition.getX()));
+        int absY = (Math.abs(positionToMove.getY() - headPosition.getY()));
+        Position absPosition = new Position(absX, absY);
+
+        if (absPosition.isEqualTo(new Position(1,0)))
+            return true;
+
+        if (absPosition.isEqualTo(new Position(0,1)))
+            return true;
+
+        if (absPosition.isEqualTo(new Position(1,1)))
+            return true;
+
+        return false;
+    }
 
 
 

@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.Window;
 
 import com.games.oleg.snake.back.models.Field;
 import com.games.oleg.snake.back.controllers.GameController;
+import com.games.oleg.snake.back.models.Position;
 
 
 public class GameActivity extends Activity {
@@ -25,6 +27,7 @@ public class GameActivity extends Activity {
         gameController.startGame(level);
 
         gameView = new GameView(this, gameController.getField());
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(gameView);
 
         //gameController.moveDown();
@@ -60,11 +63,28 @@ public class GameActivity extends Activity {
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() != MotionEvent.ACTION_DOWN)
             return super.onTouchEvent(event);
-        Boolean needUpdate = gameController.moveDown();
+
+        int touchX = (int) event.getX();
+        int touchY = (int) event.getY();
+
+        Position touchedCellPosition = findTouchedCellPosition(touchX, touchY);
+
+        Boolean needUpdate = gameController.moveToPosition(touchedCellPosition);
         if (needUpdate)
             gameView.updateField(gameController.getField());
 
 
         return false;
+    }
+
+    private Position findTouchedCellPosition(int touchX, int touchY) {
+        int cellX = ((int) Math.ceil(touchX/gameView.getCellWidth())) -1 ;
+        int cellY = ((int) Math.ceil(touchY/gameView.getCellHeight())) -1;
+        Position touchedCellPosition = new Position(cellX, cellY);
+
+        //for testing
+        gameView.updateTouched(touchX, touchY);
+        //
+        return touchedCellPosition;
     }
 }
