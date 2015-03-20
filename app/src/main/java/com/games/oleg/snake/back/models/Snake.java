@@ -24,8 +24,20 @@ public class Snake {
     public void setHead(Position newHeadPosition) {
         bodyPositions.add(this.headPosition);
         this.headPosition = newHeadPosition;
+    }
 
+    // Step back. Last body is head now.
+    public void moveBackForHead() {
+        Position lastBody = bodyPositions.get(bodyPositions.size()-1);
+        headPosition = lastBody;
+        bodyPositions.remove(lastBody);
+    }
 
+    public Position getLastBodyPosition() {
+        if (bodyPositions.size()>0)
+            return bodyPositions.get(bodyPositions.size()-1);
+
+        return new Position(-1,-1);
     }
 
 }

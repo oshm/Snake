@@ -109,20 +109,34 @@ public class GameController {
         return false;
     }
 
+    public boolean moveBackIfBody(Position positionToMove) {
+        if (!isPositionNearHeadAndBody(positionToMove))
+            return false;
+        field.moveBackForHead(getSnake().getHeadPosition(), positionToMove);
+        snake.moveBackForHead();
+
+        return true;
+    }
+
     public boolean moveToPosition(Position positionToMove) {
         if (!isPositionNearHeadAndEmpty(positionToMove))
             return false;
-        field.setNewHead(snake.getHeadPosition(), positionToMove);
+        field.setNewHead(getSnake().getHeadPosition(), positionToMove);
         snake.setHead(positionToMove);
 
         return true;
     }
 
     private boolean isPositionNearHeadAndEmpty(Position positionToMove) {
-        CellType futureCellType = field.getCell(positionToMove).getCellType();
-        if (futureCellType!= CellType.EmptyCell)
-            return false;
+        return ( isPositionNearHead(positionToMove) && isPositionEmpty(positionToMove) );
+    }
 
+    private boolean isPositionNearHeadAndBody(Position positionToMove) {
+        return ( isPositionNearHead(positionToMove) && isPositionBody(positionToMove) );
+
+    }
+
+    private boolean isPositionNearHead(Position positionToMove) {
         Position headPosition = this.getSnake().getHeadPosition();
         int absX = (Math.abs(positionToMove.getX() - headPosition.getX()));
         int absY = (Math.abs(positionToMove.getY() - headPosition.getY()));
@@ -134,12 +148,21 @@ public class GameController {
         if (absPosition.isEqualTo(new Position(0,1)))
             return true;
 
-        if (absPosition.isEqualTo(new Position(1,1)))
-            return true;
-
         return false;
     }
 
+    private boolean isPositionEmpty(Position positionToMove) {
+        CellType futureCellType = field.getCell(positionToMove).getCellType();
+        if (futureCellType == CellType.EmptyCell)
+            return true;
+        return false;
+    }
 
+    private boolean isPositionBody (Position positionToMove) {
+        Position lastBodyPosition = this.getSnake().getLastBodyPosition();
+        if (positionToMove.isEqualTo(lastBodyPosition))
+            return true;
+        return false;
+    }
 
 }

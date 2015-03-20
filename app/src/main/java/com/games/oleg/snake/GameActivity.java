@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.Window;
 
 import com.games.oleg.snake.back.models.Field;
@@ -64,22 +65,30 @@ public class GameActivity extends Activity {
         if (event.getAction() != MotionEvent.ACTION_DOWN)
             return super.onTouchEvent(event);
 
-        int touchX = (int) event.getX();
-        int touchY = (int) event.getY();
+        // Getting touched cell position
+        int[] location = new int[2];
+        this.gameView.getLocationOnScreen(location);
+        float screenX = event.getRawX();
+        float screenY = event.getRawY();
+        float viewX = screenX - location[0];
+        float viewY = screenY - location[1];
+        Position touchedCellPosition = findTouchedCellPosition((int) viewX, (int) viewY);
 
-        Position touchedCellPosition = findTouchedCellPosition(touchX, touchY);
+        Boolean isMovedToNew = gameController.moveToPosition(touchedCellPosition);
+        Boolean isMovedBack = gameController.moveBackIfBody(touchedCellPosition);
 
-        Boolean needUpdate = gameController.moveToPosition(touchedCellPosition);
+        Boolean needUpdate = isMovedToNew || isMovedBack;
+
         if (needUpdate)
             gameView.updateField(gameController.getField());
-
-
         return false;
     }
 
     private Position findTouchedCellPosition(int touchX, int touchY) {
+
         int cellX = ((int) Math.ceil(touchX/gameView.getCellWidth())) -1 ;
         int cellY = ((int) Math.ceil(touchY/gameView.getCellHeight())) -1;
+
         Position touchedCellPosition = new Position(cellX, cellY);
 
         //for testing

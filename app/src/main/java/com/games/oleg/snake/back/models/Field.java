@@ -92,12 +92,17 @@ public class Field {
         else  if (y >= sizeY)
             return new Cell(CellType.ObstacleCell);
 
-        return grid[x][y];
+        return grid[y][x];
     }
 
     public void setNewHead(Position oldHeadPosition, Position newHeadPosition) {
-        this.grid[oldHeadPosition.getY()][oldHeadPosition.getX()] = new Cell(CellType.BodyCell);
-        this.grid[newHeadPosition.getY()][newHeadPosition.getX()] = new Cell(CellType.HeadCell);
+        this.getGrid()[oldHeadPosition.getY()][oldHeadPosition.getX()] = new Cell(CellType.BodyCell);
+        this.getGrid()[newHeadPosition.getY()][newHeadPosition.getX()] = new Cell(CellType.HeadCell);
+    }
+
+    public void moveBackForHead(Position oldHeadPosition, Position newHeadPosition) {
+        this.getGrid()[oldHeadPosition.getY()][oldHeadPosition.getX()] = new Cell(CellType.EmptyCell);
+        this.getGrid()[newHeadPosition.getY()][newHeadPosition.getX()] = new Cell(CellType.HeadCell);
     }
 
     public int getSizeX() {
