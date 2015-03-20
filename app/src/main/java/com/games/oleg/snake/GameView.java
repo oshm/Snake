@@ -2,11 +2,13 @@ package com.games.oleg.snake;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.View;
 
 import com.games.oleg.snake.back.models.Field;
+import com.games.oleg.snake.back.models.Position;
 import com.games.oleg.snake.back.models.cells.Cell;
 import com.games.oleg.snake.back.models.cells.CellType;
 
@@ -16,6 +18,8 @@ import com.games.oleg.snake.back.models.cells.CellType;
 public class GameView extends View {
     private final GameActivity gameActivity;
     private Cell[][] gridToDraw;
+    private Position startPosition;
+    private Position finishPosition;
     private int maxCellsX;        // number of cells in field horizontally
     private int maxCellsY;        //number of cells in field vertically
 
@@ -31,6 +35,8 @@ public class GameView extends View {
         setFocusable(true);
         setFocusableInTouchMode(true);
         this.gridToDraw = fieldToDraw.getGrid();
+        this.startPosition = fieldToDraw.getStartPosition();
+        this.finishPosition = fieldToDraw.getFinishPosition();
         maxCellsX = fieldToDraw.getSizeX();
         maxCellsY = fieldToDraw.getSizeY();
     }
@@ -69,6 +75,7 @@ public class GameView extends View {
         drawBackground(canvas);
         drawGrid(canvas);
         drawField(canvas);
+        drawStartAndFinish(canvas);
 
         // for testing
         Paint cellColour = new Paint();
@@ -123,7 +130,6 @@ public class GameView extends View {
         Paint cellColour = new Paint();
 
         Cell cellToDraw = gridToDraw[currentY][currentX];
-        Boolean boo = cellToDraw.getCellType() == CellType.HeadCell;
         switch (cellToDraw.getCellType()) {
             case HeadCell: {
                 cellColour.setColor(getResources().getColor(R.color.snake_head));
@@ -143,15 +149,34 @@ public class GameView extends View {
                         width / 2, cellColour);
                 break;
             }
+
+            case FinishCell: {
+                cellColour.setColor(getResources().getColor(R.color.finish));
+                canvas.drawCircle(currentX * width + width / 2, currentY * height + height / 2,
+                        width / 2, cellColour);
+                break;
+            }
         }
+    }
 
+    private void drawStartAndFinish(Canvas canvas) {
+        Paint startColor = new Paint();
+        startColor.setColor(getResources().getColor(R.color.start));
+        canvas.drawCircle(startPosition.getX() * width + width / 2, startPosition.getY() * height + height / 2,
+                width / 2, startColor);
 
+        Paint finishColor = new Paint();
+        finishColor.setColor(getResources().getColor(R.color.finish));
+        canvas.drawCircle(finishPosition.getX() * width + width / 2, finishPosition.getY() * height + height / 2,
+                width / 2, finishColor);
     }
 
     public void updateField(Field updatedField) {
         this.gridToDraw = updatedField.getGrid();
         this.maxCellsX = updatedField.getSizeX();
         this.maxCellsY = updatedField.getSizeY();
+        this.startPosition = updatedField.getStartPosition();
+        this.finishPosition = updatedField.getFinishPosition();
         this.invalidate();
     }
 

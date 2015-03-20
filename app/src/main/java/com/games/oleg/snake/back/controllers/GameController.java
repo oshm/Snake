@@ -39,11 +39,30 @@ public class GameController {
 
 
     public boolean isGameFinished() {
-        if (this.getSnake().getHeadPosition() == this.getField().getFinishPosition())
+        return (isAllFieldCovered() && isOnFinish());
+    }
+
+    private boolean isOnFinish() {
+        if ( this.getSnake().getHeadPosition().isEqualTo(this.getField().getFinishPosition()) )
             return true;
         else
             return false;
     }
+
+    private boolean isAllFieldCovered() {
+        boolean hasEmpty = false;
+
+        for (int i = 0; i <this.getField().getSizeY(); i++) {
+            for (int j = 0; j < this.getField().getSizeX(); j++) {
+                hasEmpty = getField().getGrid()[j][i].getCellType() == CellType.EmptyCell;
+                if (hasEmpty) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
 
     public void finishGame()
     {
@@ -98,11 +117,19 @@ public class GameController {
         if (!field.isInField(futureHeadPosition))
             return false;
 
-        Cell futureHeadCell = field.getCell(futureHeadPosition);
-        if (futureHeadCell.getCellType() == CellType.EmptyCell ) {
+        if (isPositionFree(futureHeadPosition) ) {
             field.setNewHead(snake.getHeadPosition(), futureHeadPosition);
             snake.setHead(futureHeadPosition);
 
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean isPositionFree(Position position) {
+        CellType cellType = field.getCell(position).getCellType();
+        if (cellType == CellType.EmptyCell || cellType == CellType.FinishCell) {
             return true;
         }
 
@@ -128,7 +155,7 @@ public class GameController {
     }
 
     private boolean isPositionNearHeadAndEmpty(Position positionToMove) {
-        return ( isPositionNearHead(positionToMove) && isPositionEmpty(positionToMove) );
+        return ( isPositionNearHead(positionToMove) && isPositionFree(positionToMove) );
     }
 
     private boolean isPositionNearHeadAndBody(Position positionToMove) {
@@ -148,13 +175,6 @@ public class GameController {
         if (absPosition.isEqualTo(new Position(0,1)))
             return true;
 
-        return false;
-    }
-
-    private boolean isPositionEmpty(Position positionToMove) {
-        CellType futureCellType = field.getCell(positionToMove).getCellType();
-        if (futureCellType == CellType.EmptyCell)
-            return true;
         return false;
     }
 

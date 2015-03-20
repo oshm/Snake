@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.games.oleg.snake.back.models.Field;
 import com.games.oleg.snake.back.controllers.GameController;
@@ -81,6 +82,15 @@ public class GameActivity extends Activity {
 
         if (needUpdate)
             gameView.updateField(gameController.getField());
+
+        if (gameController.isGameFinished()) {
+
+            CharSequence text = "You did it! Good job, bro!";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(this, text, duration);
+            toast.show();
+        }
         return false;
     }
 

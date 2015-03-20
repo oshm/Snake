@@ -7,8 +7,7 @@
     <finish_x>4</finish_x>
     <finish_y>4</finish_y>
     <obstacles>
-        3, 3
-        4, 4
-        1, 1
+        2, 2
+        3, 2
     </obstacles>
 </level>
