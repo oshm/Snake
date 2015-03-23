@@ -48,14 +48,22 @@ public class MainMenuActivity extends Activity implements OnClickListener{
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.start_game_button:
-                startGame();
+            case R.id.start_game_button: {
+                //startGame();
+                goChoseLevel();
+                break;
+            }
         }
 
     }
 
     public void startGame() {
         Intent i = new Intent(this, GameActivity.class);
+        startActivity(i);
+    }
+
+    public void goChoseLevel() {
+        Intent i = new Intent(this, ChooseLevelActivity.class);
         startActivity(i);
     }
 

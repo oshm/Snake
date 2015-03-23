@@ -8,4 +8,5 @@
     <string name="start_game">Release the kraken!</string>
     <string name="exit_game">Lets get out of here!</string>
     <string name="game_title">The Snake game</string>
+    <string name="title_activity_choose_level">ChooseLevelActivity</string>
 </resources>

@@ -41,47 +41,17 @@ public class GameView extends View {
         maxCellsY = fieldToDraw.getSizeY();
     }
 
-    // commented because gets whole size, not only view size
-/*
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        width = w/(float) maxCellsX;
-        height = h/(float)maxCellsY;
-        super.onSizeChanged(w,h,oldw, oldh);
-    }
-*/
-
     @Override
     protected void onLayout (boolean changed, int left, int top, int right, int bottom) {
         this.width = (right - left)/(float) maxCellsX;;
         this.height = (bottom - top)/(float) maxCellsY;;
     }
-/*
-    @Override
-    protected void onLayoutChange(int left, int top, int right, int bottom,
-                                  int oldLeft, int oldTop, int oldRight, int oldBottom) {
-        this.width = right - left;
-        this.height = bottom - top;
-
-    }
-*/
-
-
-
-
-
-
 
     protected void onDraw(Canvas canvas) {
         drawBackground(canvas);
         drawGrid(canvas);
         drawField(canvas);
         drawStartAndFinish(canvas);
-
-        // for testing
-        Paint cellColour = new Paint();
-        cellColour.setColor(getResources().getColor(R.color.snake_body));
-        canvas.drawCircle(x, y, 30, cellColour);
-        //
     }
 
     public void updateTouched(float x, float y) {
@@ -121,8 +91,6 @@ public class GameView extends View {
                 drawCell(canvas, currentX, currentY);
             }
         }
-
-
     }
 
     private void drawCell(Canvas canvas, int currentX, int currentY) {

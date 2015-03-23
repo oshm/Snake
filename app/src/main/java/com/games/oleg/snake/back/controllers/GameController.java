@@ -63,54 +63,12 @@ public class GameController {
         return true;
     }
 
-
-    public void finishGame()
-    {
-        System.out.println("Game finished!");
-    }
-
     public Snake getSnake() {
         return this.snake;
     }
 
     public Field getField() {
         return this.field;
-    }
-
-    public void moveSnake(String direction) {
-        if (direction == "left")
-            moveLeft();
-        else if (direction == "right")
-            moveRight();
-        else if (direction == "up")
-            moveUp();
-        else if (direction == "down")
-            moveDown();
-    }
-
-    public void moveLeft() {
-        Position headPosition = snake.getHeadPosition();
-        Position newHeadPosition = new Position(headPosition.getX()-1, headPosition.getY());
-        moveIfFree(newHeadPosition);
-
-    }
-
-    public void moveRight() {
-        Position headPosition = snake.getHeadPosition();
-        Position newHeadPosition = new Position(headPosition.getX()+1, headPosition.getY());
-        moveIfFree(newHeadPosition);
-    }
-
-    public void moveUp() {
-        Position headPosition = snake.getHeadPosition();
-        Position newHeadPosition = new Position(headPosition.getX(), headPosition.getY()-1);
-        moveIfFree(newHeadPosition);
-    }
-
-    public boolean moveDown() {
-        Position headPosition = snake.getHeadPosition();
-        Position newHeadPosition = new Position(headPosition.getX(), headPosition.getY()+1);
-        return moveIfFree(newHeadPosition);
     }
 
     private boolean moveIfFree(Position futureHeadPosition) {
