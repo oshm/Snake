@@ -25,7 +25,6 @@ public class GameView extends View {
 
     private float width;            //width of one square
     private float height;           //height of one square
-    private final Rect selRect = new Rect();
     float x = -30;
     float y = -30;
 

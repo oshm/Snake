@@ -1,51 +1,55 @@
 package com.games.oleg.snake;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.Toast;
 
 
 public class ChooseLevelActivity extends Activity {
 
+    ChooseLevelView chooseLevelView;
+    public static final String KEY_LEVEL_NUMBER =
+            "com.games.oleg.snake.level_number" ;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_level);
 
-        int BOOKSHELF_ROWS = 5;
-        int BOOKSHELF_COLUMNS = 5;
+        GridView gridview = (GridView) findViewById(R.id.gridview);
+        gridview.setAdapter(new ChooseLevelImageAdapter(this));
 
-        TableLayout tableLayout = (TableLayout) findViewById(R.id.tableLayout);
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
 
-        for (int i = 0; i < BOOKSHELF_ROWS; i++) {
 
-            TableRow tableRow = new TableRow(this);
-            tableRow.setLayoutParams(new TableRow.LayoutParams(LayoutParams.MATCH_PARENT,
-                    LayoutParams.WRAP_CONTENT));
-            tableRow.setBackgroundResource(R.drawable.shelf);
+                Intent i = new Intent(getApplicationContext(), GameActivity.class);
+                i.putExtra(KEY_LEVEL_NUMBER, position);
+                startActivity(i);
 
-            for (int j = 0; j < BOOKSHELF_COLUMNS; j++) {
-                ImageView imageView = new ImageView(this);
-                imageView.setImageResource(R.drawable.book);
 
-                tableRow.addView(imageView, j);
+                //Toast.makeText(ChooseLevelActivity.this, "" + position,
+                //        Toast.LENGTH_SHORT).show();
             }
-
-            tableLayout.addView(tableRow, i);
-        }
-
+        });
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_choose_level, menu);
+        getMenuInflater().inflate(R.menu.menu_main_menu, menu);
         return true;
     }
 

@@ -14,18 +14,25 @@ import com.games.oleg.snake.back.models.Field;
 import com.games.oleg.snake.back.controllers.GameController;
 import com.games.oleg.snake.back.models.Position;
 
+import java.io.File;
+
 
 public class GameActivity extends Activity {
     private GameController gameController;
     private GameView gameView;
+    public static final String KEY_LEVEL_NUMBER =
+            "com.games.oleg.snake.level_number" ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //setContentView(R.layout.activity_game);
-        XmlResourceParser level = this.getResources().getXml(R.xml.level1);
+        XmlResourceParser level;
         gameController = new GameController();
+        int levelNumber = getIntent().getIntExtra(KEY_LEVEL_NUMBER, 1);
+        level = readLevel(levelNumber);
         gameController.startGame(level);
 
         gameView = new GameView(this, gameController.getField());
@@ -37,6 +44,14 @@ public class GameActivity extends Activity {
         //gameController.moveRight();
         //Field field = gameController.getField();
         //String boo = "";
+    }
+
+    private  XmlResourceParser readLevel (int levelNumber) {
+        XmlResourceParser level;
+        String levelName = "level" + Integer.toString(levelNumber+1);
+        int levelId = getResources().getIdentifier(levelName, "xml", getPackageName());
+        level = this.getResources().getXml(levelId);
+        return level;
     }
 
     public Field getField() {

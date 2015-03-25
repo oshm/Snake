@@ -32,7 +32,7 @@ public class GameController {
     }
 
 
-    private void readLevel(String xml)
+    private void readLevel(int number)
     {
 
     }
