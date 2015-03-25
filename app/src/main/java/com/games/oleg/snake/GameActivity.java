@@ -1,20 +1,18 @@
 package com.games.oleg.snake;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Intent;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.View;
-import android.view.Window;
 import android.widget.Toast;
 
 import com.games.oleg.snake.back.models.Field;
 import com.games.oleg.snake.back.controllers.GameController;
 import com.games.oleg.snake.back.models.Position;
-
-import java.io.File;
 
 
 public class GameActivity extends Activity {
@@ -98,13 +96,16 @@ public class GameActivity extends Activity {
         if (needUpdate)
             gameView.updateField(gameController.getField());
 
-        if (gameController.isGameFinished()) {
-
+        if (gameController.isLevelFinished()) {
+            /*
             CharSequence text = "You did it! Good job, bro!";
             int duration = Toast.LENGTH_SHORT;
 
             Toast toast = Toast.makeText(this, text, duration);
             toast.show();
+            */
+            Dialog levelFinishedDialog = new LevelFinishedDialog(this);
+            levelFinishedDialog.show();
         }
         return false;
     }

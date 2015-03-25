@@ -31,14 +31,7 @@ public class GameController {
         this.snake = new Snake(this.field.getStartPosition());
     }
 
-
-    private void readLevel(int number)
-    {
-
-    }
-
-
-    public boolean isGameFinished() {
+    public boolean isLevelFinished() {
         return (isAllFieldCovered() && isOnFinish());
     }
 
