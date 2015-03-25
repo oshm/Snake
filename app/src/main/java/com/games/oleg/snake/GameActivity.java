@@ -20,7 +20,7 @@ public class GameActivity extends Activity {
     private GameView gameView;
     public static final String KEY_LEVEL_NUMBER =
             "com.games.oleg.snake.level_number" ;
-
+    private int levelNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class GameActivity extends Activity {
         //setContentView(R.layout.activity_game);
         XmlResourceParser level;
         gameController = new GameController();
-        int levelNumber = getIntent().getIntExtra(KEY_LEVEL_NUMBER, 1);
+        levelNumber = getIntent().getIntExtra(KEY_LEVEL_NUMBER, 1);
         level = readLevel(levelNumber);
         gameController.startGame(level);
 
@@ -104,7 +104,7 @@ public class GameActivity extends Activity {
             Toast toast = Toast.makeText(this, text, duration);
             toast.show();
             */
-            Dialog levelFinishedDialog = new LevelFinishedDialog(this);
+            Dialog levelFinishedDialog = new LevelFinishedDialog(this, levelNumber);
             levelFinishedDialog.show();
         }
         return false;
