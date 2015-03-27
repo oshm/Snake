@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import com.games.oleg.snake.back.models.Field;
@@ -23,10 +24,14 @@ public class GameView extends View {
     private int maxCellsX;        // number of cells in field horizontally
     private int maxCellsY;        //number of cells in field vertically
 
-    private float width;            //width of one square
+     private float width;            //width of one square
     private float height;           //height of one square
     float x = -30;
     float y = -30;
+
+    private Drawable backgroundImage;
+    private Drawable obstacleImage;
+
 
     public GameView(Context context, Field fieldToDraw) {
         super(context);
@@ -38,6 +43,10 @@ public class GameView extends View {
         this.finishPosition = fieldToDraw.getFinishPosition();
         maxCellsX = fieldToDraw.getSizeX();
         maxCellsY = fieldToDraw.getSizeY();
+        backgroundImage = context.getResources().getDrawable(R.drawable.game_grass_background);
+        backgroundImage = context.getResources().getDrawable(R.drawable.stone);
+
+
     }
 
     @Override
@@ -60,9 +69,17 @@ public class GameView extends View {
     }
 
     private void drawBackground(Canvas canvas) {
+        /*
+        Paints background to colour
         Paint background = new Paint();
         background.setColor(getResources().getColor(R.color.game_background));
         canvas.drawRect(0,0, getWidth(), getHeight(), background);
+        */
+        Rect imageBounds = canvas.getClipBounds();  // Adjust this for where you want it
+
+        backgroundImage.setBounds(canvas.getClipBounds());
+        backgroundImage.draw(canvas);
+
     }
 
     private void drawGrid(Canvas canvas) {
@@ -111,9 +128,15 @@ public class GameView extends View {
                 break;
             }
             case ObstacleCell: {
+                
                 cellColour.setColor(getResources().getColor(R.color.obstacle));
                 canvas.drawCircle(currentX * width + width / 2, currentY * height + height / 2,
                         width / 2, cellColour);
+
+                /*
+                obstacleImage.setBounds(new Rect(currentX, currentY, currentX+(int)width, currentY+(int)height));
+                obstacleImage.draw(canvas);
+                */
                 break;
             }
 

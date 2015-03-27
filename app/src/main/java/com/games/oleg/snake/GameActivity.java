@@ -36,12 +36,6 @@ public class GameActivity extends Activity {
         gameView = new GameView(this, gameController.getField());
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(gameView);
-
-        //gameController.moveDown();
-        //gameController.moveRight();
-        //gameController.moveRight();
-        //Field field = gameController.getField();
-        //String boo = "";
     }
 
     /*
@@ -108,13 +102,6 @@ public class GameActivity extends Activity {
             gameView.updateField(gameController.getField());
 
         if (gameController.isLevelFinished()) {
-            /*
-            CharSequence text = "You did it! Good job, bro!";
-            int duration = Toast.LENGTH_SHORT;
-
-            Toast toast = Toast.makeText(this, text, duration);
-            toast.show();
-            */
             Dialog levelFinishedDialog = new LevelFinishedDialog(this, levelNumber);
             levelFinishedDialog.show();
         }

@@ -42,7 +42,6 @@ public class LevelFinishedDialog extends Dialog implements View.OnClickListener 
         Intent i = new Intent(context, GameActivity.class);
         i.putExtra(KEY_LEVEL_NUMBER, levelNumber+1);
         context.startActivity(i);
-
     }
 
     public void goToLevelMenu(Context context) {

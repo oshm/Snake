@@ -2,7 +2,7 @@
     <color name="game_background">#ffe6f0ff</color>
     <color name="snake_head">#6400ff80</color>
     <color name="snake_body">#64ff0000</color>
-    <color name="grid_line">#6456648f</color>
+    <color name="grid_line">#000000</color>
     <color name="obstacle">#ff000000</color>
     <color name="finish">#ff912944</color>
     <color name="start">#ff1f119f</color>
