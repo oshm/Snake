@@ -44,6 +44,17 @@ public class GameActivity extends Activity {
         //String boo = "";
     }
 
+    /*
+    public void startNewLevel(int levelNumber) {
+        this.levelNumber = levelNumber;
+        XmlResourceParser level = readLevel(levelNumber);
+        gameController.startGame(level);
+
+        gameView = new GameView(this, gameController.getField());
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(gameView);
+    }
+    */
     private  XmlResourceParser readLevel (int levelNumber) {
         XmlResourceParser level;
         String levelName = "level" + Integer.toString(levelNumber+1);
