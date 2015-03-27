@@ -45,8 +45,8 @@ public class LevelFinishedDialog extends Dialog implements View.OnClickListener 
 
     }
 
-    public void goToMainMenu(Context context) {
-        Intent i = new Intent(context, MainMenuActivity.class);
+    public void goToLevelMenu(Context context) {
+        Intent i = new Intent(context, ChooseLevelActivity.class);
         context.startActivity(i);
     }
 
@@ -57,7 +57,7 @@ public class LevelFinishedDialog extends Dialog implements View.OnClickListener 
             this.closeOptionsMenu();
         }
         else if (view == levelMenuButton) {
-            goToMainMenu(gameActivity);
+            goToLevelMenu(gameActivity);
             this.closeOptionsMenu();
         }
     }
