@@ -1,10 +1,13 @@
 package com.games.oleg.snake;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
@@ -44,9 +47,10 @@ public class GameView extends View {
         maxCellsX = fieldToDraw.getSizeX();
         maxCellsY = fieldToDraw.getSizeY();
         backgroundImage = context.getResources().getDrawable(R.drawable.game_grass_background);
-        backgroundImage = context.getResources().getDrawable(R.drawable.stone);
-
-
+        //obstacleImage = context.getResources().getDrawable(R.drawable.stone);
+        Bitmap obstacleBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.stone);
+        obstacleBitmap = makeBitmapTransparent(obstacleBitmap, Color.WHITE);
+        obstacleImage = new BitmapDrawable(getResources(),obstacleBitmap);
     }
 
     @Override
@@ -128,15 +132,16 @@ public class GameView extends View {
                 break;
             }
             case ObstacleCell: {
-                
+                /*
                 cellColour.setColor(getResources().getColor(R.color.obstacle));
                 canvas.drawCircle(currentX * width + width / 2, currentY * height + height / 2,
                         width / 2, cellColour);
-
-                /*
-                obstacleImage.setBounds(new Rect(currentX, currentY, currentX+(int)width, currentY+(int)height));
-                obstacleImage.draw(canvas);
                 */
+
+                obstacleImage.setBounds(new Rect((int)(currentX*width),(int)(currentY*height),
+                        (int)(currentX*width + width), (int)(currentY*height+height)));
+                obstacleImage.draw(canvas);
+             //   obstacleImage.setAlpha(100);
                 break;
             }
 
@@ -159,6 +164,25 @@ public class GameView extends View {
         finishColor.setColor(getResources().getColor(R.color.finish));
         canvas.drawCircle(finishPosition.getX() * width + width / 2, finishPosition.getY() * height + height / 2,
                 width / 2, finishColor);
+    }
+
+    // Convert transparentColor to be transparent in a Bitmap.
+    private Bitmap makeBitmapTransparent(Bitmap bit, int transparentColor) {
+        int width =  bit.getWidth();
+        int height = bit.getHeight();
+        Bitmap myBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        int [] allpixels = new int [ myBitmap.getHeight()*myBitmap.getWidth()];
+        bit.getPixels(allpixels, 0, myBitmap.getWidth(), 0, 0, myBitmap.getWidth(),myBitmap.getHeight());
+        myBitmap.setPixels(allpixels, 0, width, 0, 0, width, height);
+
+        for(int i =0; i<myBitmap.getHeight()*myBitmap.getWidth();i++){
+            if( allpixels[i] == transparentColor)
+
+                allpixels[i] = Color.alpha(Color.TRANSPARENT);
+        }
+
+        myBitmap.setPixels(allpixels, 0, myBitmap.getWidth(), 0, 0, myBitmap.getWidth(), myBitmap.getHeight());
+        return myBitmap;
     }
 
     public void updateField(Field updatedField) {
