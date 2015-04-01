@@ -32,19 +32,12 @@ public class ChooseLevelActivity extends Activity {
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-
-
                 Intent i = new Intent(getApplicationContext(), GameActivity.class);
                 i.putExtra(KEY_LEVEL_NUMBER, position);
                 startActivity(i);
-
-
-                //Toast.makeText(ChooseLevelActivity.this, "" + position,
-                //        Toast.LENGTH_SHORT).show();
             }
         });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
