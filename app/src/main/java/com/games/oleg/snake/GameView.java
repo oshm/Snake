@@ -132,13 +132,7 @@ public class GameView extends View {
                 break;
             }
             case ObstacleCell: {
-                /*
-                cellColour.setColor(getResources().getColor(R.color.obstacle));
-                canvas.drawCircle(currentX * width + width / 2, currentY * height + height / 2,
-                        width / 2, cellColour);
-                */
-
-                obstacleImage.setBounds(new Rect((int)(currentX*width),(int)(currentY*height),
+                   obstacleImage.setBounds(new Rect((int)(currentX*width),(int)(currentY*height),
                         (int)(currentX*width + width), (int)(currentY*height+height)));
                 obstacleImage.draw(canvas);
              //   obstacleImage.setAlpha(100);
@@ -166,7 +160,7 @@ public class GameView extends View {
                 width / 2, finishColor);
     }
 
-    // Convert transparentColor to be transparent in a Bitmap.
+    // Convert transparentColor to be transparent in a Bitmap. TODO:Should moved out of here.
     private Bitmap makeBitmapTransparent(Bitmap bit, int transparentColor) {
         int width =  bit.getWidth();
         int height = bit.getHeight();
