@@ -132,10 +132,9 @@ public class GameView extends View {
                 break;
             }
             case ObstacleCell: {
-                   obstacleImage.setBounds(new Rect((int)(currentX*width),(int)(currentY*height),
-                        (int)(currentX*width + width), (int)(currentY*height+height)));
-                obstacleImage.draw(canvas);
-             //   obstacleImage.setAlpha(100);
+                Rect bounds = new Rect((int)(currentX*width),(int)(currentY*height),
+                        (int)(currentX*width + width), (int)(currentY*height+height));
+                cellToDraw.drawCell(canvas, bounds);
                 break;
             }
 

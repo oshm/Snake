@@ -4,6 +4,7 @@ import android.content.res.XmlResourceParser;
 import android.util.Xml;
 
 import com.games.oleg.snake.back.models.Field;
+import com.games.oleg.snake.back.models.FieldParameters;
 import com.games.oleg.snake.back.models.Position;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -32,7 +33,7 @@ public class XmlParser {
         }
     }
 
-    public Field parse(XmlResourceParser parser) throws XmlPullParserException, IOException {
+    public FieldParameters parse(XmlResourceParser parser) throws XmlPullParserException, IOException {
         try {
             return parseLevel(parser);
         } finally {
@@ -41,10 +42,10 @@ public class XmlParser {
     }
 
 
-    private Field parseLevel(XmlPullParser parser) throws XmlPullParserException, IOException {
+    private FieldParameters parseLevel(XmlPullParser parser)
+            throws XmlPullParserException, IOException {
         //parser.require(XmlPullParser.START_TAG, "ns", "level");
-        Field levelField;
-        levelField = new Field(5);
+        FieldParameters levelFieldParameters = null;
 
         while (parser.next() != XmlPullParser.END_DOCUMENT) {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
@@ -54,15 +55,20 @@ public class XmlParser {
             String name = parser.getName();
             // Starts by looking for the entry level
             if (name.equals("level")) {
-                levelField = readLevel(parser);
+                levelFieldParameters = readLevel(parser);
             }
         }
 
-        return levelField;
+        //TODO meaningful exception
+        if (levelFieldParameters != null)
+            return levelFieldParameters;
+        else
+            throw new IOException();
     }
 
 
-    private Field readLevel(XmlPullParser parser) throws XmlPullParserException, IOException {
+    private FieldParameters readLevel(XmlPullParser parser)
+            throws XmlPullParserException, IOException {
         int sizeX = -1;
         int sizeY = -1;
         int startX = -1;
@@ -100,9 +106,10 @@ public class XmlParser {
 
         //TODO exceptions for case -1 (when parameter not found in xml)
         //if (sizeX < 0 )
-        Field levelField = new Field(sizeX, sizeY, startX, startY, finishX, finishY, obstacles);
+        FieldParameters levelFieldParameters = new FieldParameters(
+                sizeX, sizeY, startX, startY, finishX, finishY, obstacles);
 
-        return levelField;
+        return levelFieldParameters;
     }
 
 

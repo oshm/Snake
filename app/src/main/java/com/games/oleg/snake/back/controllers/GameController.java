@@ -1,8 +1,10 @@
 package com.games.oleg.snake.back.controllers;
 
+import android.content.Context;
 import android.content.res.XmlResourceParser;
 
 import com.games.oleg.snake.back.models.Field;
+import com.games.oleg.snake.back.models.FieldParameters;
 import com.games.oleg.snake.back.models.Position;
 import com.games.oleg.snake.back.models.Snake;
 import com.games.oleg.snake.back.models.cells.Cell;
@@ -15,17 +17,17 @@ import com.games.oleg.snake.back.models.cells.CellType;
 public class GameController {
     private Snake snake;
     private Field field;
-    private int size = 8;
     private XmlParser xmlParser = new XmlParser();
 
-    public void startGame(XmlResourceParser level) {
+    public void startGame(XmlResourceParser level, Context context) {
         //this.field = new Field(size);
 
         try {
-            this.field = xmlParser.parse(level);
+            FieldParameters parameters = xmlParser.parse(level);
+            this.field = new Field(context, parameters);
 
         } catch (Exception ex) {
-            //
+            //TODO exception
         }
 
         this.snake = new Snake(this.field.getStartPosition());

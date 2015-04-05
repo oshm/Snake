@@ -31,7 +31,7 @@ public class GameActivity extends Activity {
         gameController = new GameController();
         levelNumber = getIntent().getIntExtra(KEY_LEVEL_NUMBER, 1);
         level = readLevel(levelNumber);
-        gameController.startGame(level);
+        gameController.startGame(level, getApplicationContext());
 
         gameView = new GameView(this, gameController.getField());
         //requestWindowFeature(Window.FEATURE_NO_TITLE);

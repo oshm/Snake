@@ -1,8 +1,12 @@
 package com.games.oleg.snake.back.models;
 
+import android.content.Context;
+
 import com.games.oleg.snake.back.models.Position;
 import com.games.oleg.snake.back.models.cells.Cell;
+import com.games.oleg.snake.back.models.cells.CellOrientation;
 import com.games.oleg.snake.back.models.cells.CellType;
+import com.games.oleg.snake.back.models.cells.ObstacleCell;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -37,7 +41,7 @@ public class Field {
         grid[finishPosition.getY()][finishPosition.getX()] = new Cell(CellType.FinishCell);
     }
 
-    public Field(int sizeX, int sizeY, int startX, int startY,
+    public void CreateField(Context context, int sizeX, int sizeY, int startX, int startY,
                  int finishX, int finishY, ArrayList<Position> obstacles) {
         this.sizeX = sizeX;
         this.sizeY = sizeY;
@@ -55,13 +59,20 @@ public class Field {
         this.finishPosition = new Position(finishX, finishY);
         grid[finishY][finishX] = new Cell(CellType.FinishCell);
 
-        SetCellToPositions(CellType.ObstacleCell , obstacles );
+        SetObstaclesToPositions(obstacles, context);
     }
 
-    public void SetCellToPositions(CellType cellType, List<Position> positions) {
+    public Field(Context context, FieldParameters parameters) {
+        CreateField(context, parameters.sizeX, parameters.sizeY, parameters.startX,
+                parameters.startY, parameters.finishX, parameters.finishY,
+                parameters.obstacles);
+    }
+
+    public void SetObstaclesToPositions(List<Position> positions, Context context) {
         for (Iterator<Position> p = positions.iterator(); p.hasNext();) {
             Position position = p.next();
-            grid[position.getY()][position.getX()] = new Cell(CellType.ObstacleCell);
+            grid[position.getY()][position.getX()] = new ObstacleCell(
+                    CellType.ObstacleCell, context);
         }
     }
 
