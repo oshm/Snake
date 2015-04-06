@@ -6,6 +6,7 @@ import com.games.oleg.snake.back.models.Position;
 import com.games.oleg.snake.back.models.cells.Cell;
 import com.games.oleg.snake.back.models.cells.CellOrientation;
 import com.games.oleg.snake.back.models.cells.CellType;
+import com.games.oleg.snake.back.models.cells.FinishCell;
 import com.games.oleg.snake.back.models.cells.ObstacleCell;
 
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ public class Field {
         grid[startY][startX] = new Cell(CellType.HeadCell);
 
         this.finishPosition = new Position(finishX, finishY);
-        grid[finishY][finishX] = new Cell(CellType.FinishCell);
+        grid[finishY][finishX] = new FinishCell(CellType.FinishCell, context);
 
         SetObstaclesToPositions(obstacles, context);
     }

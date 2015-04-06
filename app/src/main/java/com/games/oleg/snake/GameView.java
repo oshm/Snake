@@ -15,6 +15,8 @@ import com.games.oleg.snake.back.models.Field;
 import com.games.oleg.snake.back.models.Position;
 import com.games.oleg.snake.back.models.cells.Cell;
 import com.games.oleg.snake.back.models.cells.CellType;
+import com.games.oleg.snake.back.models.cells.FinishCell;
+import com.games.oleg.snake.back.models.cells.StartCell;
 
 /**
  * Created by oleg on 09.03.15.
@@ -139,24 +141,24 @@ public class GameView extends View {
             }
 
             case FinishCell: {
-                cellColour.setColor(getResources().getColor(R.color.finish));
-                canvas.drawCircle(currentX * width + width / 2, currentY * height + height / 2,
-                        width / 2, cellColour);
+                Rect bounds = new Rect((int)(currentX*width),(int)(currentY*height),
+                        (int)(currentX*width + width), (int)(currentY*height+height));
+                cellToDraw.drawCell(canvas, bounds);
                 break;
             }
         }
     }
 
     private void drawStartAndFinish(Canvas canvas) {
-        Paint startColor = new Paint();
-        startColor.setColor(getResources().getColor(R.color.start));
-        canvas.drawCircle(startPosition.getX() * width + width / 2, startPosition.getY() * height + height / 2,
-                width / 2, startColor);
+        Cell startCell = new StartCell(CellType.StartCell, getContext());
+        Rect bounds = new Rect((int)(startPosition.getX()*width),(int)(startPosition.getY()*height),
+                (int)(startPosition.getX()*width + width), (int)(startPosition.getY()*height+height));
+        startCell.drawCell(canvas, bounds);
 
-        Paint finishColor = new Paint();
-        finishColor.setColor(getResources().getColor(R.color.finish));
-        canvas.drawCircle(finishPosition.getX() * width + width / 2, finishPosition.getY() * height + height / 2,
-                width / 2, finishColor);
+        Cell finishCell = new FinishCell(CellType.FinishCell, getContext());
+        bounds = new Rect((int)(finishPosition.getX()*width),(int)(finishPosition.getY()*height),
+                (int)(finishPosition.getX()*width + width), (int)(finishPosition.getY()*height+height));
+        finishCell.drawCell(canvas, bounds);
     }
 
     // Convert transparentColor to be transparent in a Bitmap. TODO:Should moved out of here.
