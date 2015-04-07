@@ -3,6 +3,7 @@ package com.games.oleg.snake.back.models;
 import android.content.Context;
 
 import com.games.oleg.snake.back.models.Position;
+import com.games.oleg.snake.back.models.cells.BodyCell;
 import com.games.oleg.snake.back.models.cells.Cell;
 import com.games.oleg.snake.back.models.cells.CellOrientation;
 import com.games.oleg.snake.back.models.cells.CellType;
@@ -110,7 +111,8 @@ public class Field {
 
     public void setNewHead(Context context, Position oldHeadPosition,
                            Position newHeadPosition, CellOrientation headOrientation) {
-        this.getGrid()[oldHeadPosition.getY()][oldHeadPosition.getX()] = new Cell(CellType.BodyCell);
+        this.getGrid()[oldHeadPosition.getY()][oldHeadPosition.getX()] =
+                new BodyCell(context, CellType.BodyCell, headOrientation);
         this.getGrid()[newHeadPosition.getY()][newHeadPosition.getX()] =
                 new HeadCell(context, CellType.HeadCell, headOrientation);
     }

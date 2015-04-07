@@ -31,13 +31,14 @@ public class SpritesSheet {
     }
 
     public Bitmap getBitmapFromPosition(int horizontal, int vertical) {
-        float oneHorizontalSize = sheetBitmap.getWidth()/horizontalMax;
-        float oneVerticalSize = sheetBitmap.getHeight()/verticalMax;
+        float oneHorizontalSize = sheetBitmap.getWidth() / horizontalMax;
+        float oneVerticalSize = sheetBitmap.getHeight() / verticalMax;
 
-        Bitmap croppedBmp =
-                Bitmap.createBitmap(sheetBitmap,
-                        (int)((horizontal-1)*oneHorizontalSize),(int)((vertical-1)*oneVerticalSize),
-                        (int)((horizontal)*oneHorizontalSize),(int)((vertical)*oneVerticalSize));
+        int x0 = (int) ((horizontal - 1) * oneHorizontalSize);
+        int y0 = (int) ((vertical - 1) * oneVerticalSize);
+        Bitmap croppedBmp = Bitmap.createBitmap(sheetBitmap, x0, y0,
+                (int)oneHorizontalSize, (int)oneVerticalSize);
+
         return croppedBmp;
     }
 

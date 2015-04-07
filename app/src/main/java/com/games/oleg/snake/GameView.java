@@ -125,16 +125,16 @@ public class GameView extends View {
                 Rect bounds = new Rect((int)(currentX*width),(int)(currentY*height),
                         (int)(currentX*width + width), (int)(currentY*height+height));
                 cellToDraw.drawCell(canvas, bounds);
-                /*
-                cellColour.setColor(getResources().getColor(R.color.snake_head));
-                canvas.drawCircle(currentX * width + width / 2, currentY * height + height / 2,
-                        width / 2, cellColour);*/
                 break;
             }
             case BodyCell: {
+                Rect bounds = new Rect((int)(currentX*width),(int)(currentY*height),
+                        (int)(currentX*width + width), (int)(currentY*height+height));
+                cellToDraw.drawCell(canvas, bounds);
+                /*
                 cellColour.setColor(getResources().getColor(R.color.snake_body));
                 canvas.drawCircle(currentX * width + width / 2, currentY * height + height / 2,
-                        width / 2, cellColour);
+                        width / 2, cellColour);*/
                 break;
             }
             case ObstacleCell: {

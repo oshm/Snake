@@ -16,18 +16,18 @@ import com.games.oleg.snake.back.models.SpritesSheet;
 /**
  * Created by oleg on 05.04.15.
  */
-public class HeadCell extends Cell {
+public class BodyCell extends Cell {
     private int drawableId = R.drawable.snake;
     private Bitmap cellBitmap;
     private Drawable cellDrawable;
     private Resources resources;
 
-    public HeadCell(Context context, CellType cellType, CellOrientation cellOrientation) {
+    public BodyCell(Context context, CellType cellType, CellOrientation cellOrientation) {
         super(cellType);
         this.cellOrientation = cellOrientation;
         this.resources = context.getResources();
         SpritesSheet snakeSheet = new SpritesSheet(context, drawableId, 2, 1);
-        cellBitmap = snakeSheet.getBitmapFromPosition(1, 1);
+        cellBitmap = snakeSheet.getBitmapFromPosition(2, 1);
         cellBitmap = super.makeBitmapTransparent(cellBitmap, Color.WHITE);
         cellBitmap = super.rotateBitmap(cellBitmap, 90);
         cellDrawable = new BitmapDrawable(context.getResources(), cellBitmap);
