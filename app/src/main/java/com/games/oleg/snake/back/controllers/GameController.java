@@ -8,6 +8,7 @@ import com.games.oleg.snake.back.models.FieldParameters;
 import com.games.oleg.snake.back.models.Position;
 import com.games.oleg.snake.back.models.Snake;
 import com.games.oleg.snake.back.models.cells.Cell;
+import com.games.oleg.snake.back.models.cells.CellOrientation;
 import com.games.oleg.snake.back.models.cells.CellType;
 
 
@@ -66,20 +67,6 @@ public class GameController {
         return this.field;
     }
 
-    private boolean moveIfFree(Position futureHeadPosition) {
-        if (!field.isInField(futureHeadPosition))
-            return false;
-
-        if (isPositionFree(futureHeadPosition) ) {
-            field.setNewHead(snake.getHeadPosition(), futureHeadPosition);
-            snake.setHead(futureHeadPosition);
-
-            return true;
-        }
-
-        return false;
-    }
-
     private boolean isPositionFree(Position position) {
         CellType cellType = field.getCell(position).getCellType();
         if (cellType == CellType.EmptyCell || cellType == CellType.FinishCell) {
@@ -89,19 +76,23 @@ public class GameController {
         return false;
     }
 
-    public boolean moveBackIfBody(Position positionToMove) {
+    public boolean moveBackIfBody(Context context, Position positionToMove) {
         if (!isPositionNearHeadAndBody(positionToMove))
             return false;
-        field.moveBackForHead(getSnake().getHeadPosition(), positionToMove);
+        CellOrientation headOrientation = computeHeadOrientation(
+                getSnake().getPreLastBodyPosition(), getSnake().getLastBodyPosition());
+        field.moveBackForHead(context, getSnake().getHeadPosition(), positionToMove, headOrientation);
         snake.moveBackForHead();
 
         return true;
     }
 
-    public boolean moveToPosition(Position positionToMove) {
+    public boolean moveToPosition(Context context, Position positionToMove) {
         if (!isPositionNearHeadAndEmpty(positionToMove))
             return false;
-        field.setNewHead(getSnake().getHeadPosition(), positionToMove);
+        CellOrientation headOrientation = computeHeadOrientation(
+                getSnake().getHeadPosition(), positionToMove);
+        field.setNewHead(context, getSnake().getHeadPosition(), positionToMove, headOrientation);
         snake.setHead(positionToMove);
 
         return true;
@@ -136,6 +127,25 @@ public class GameController {
         if (positionToMove.isEqualTo(lastBodyPosition))
             return true;
         return false;
+    }
+
+    private CellOrientation computeHeadOrientation(Position moveFrom, Position moveTo) {
+        int difX = moveTo.getX() - moveFrom.getX();
+        int difY = moveTo.getY() - moveFrom.getY();
+        Position difPosition = new Position(difX, difY);
+        if (difPosition.isEqualTo(new Position(1,0)))
+            return CellOrientation.Right;
+
+        if (difPosition.isEqualTo(new Position(-1,0)))
+            return CellOrientation.Left;
+
+        if (difPosition.isEqualTo(new Position(0,1)))
+            return CellOrientation.Down;
+
+        if (difPosition.isEqualTo(new Position(0,-1)))
+            return CellOrientation.Up;
+
+        return CellOrientation.Down;
     }
 
 }

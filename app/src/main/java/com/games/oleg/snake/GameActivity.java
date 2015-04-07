@@ -82,8 +82,9 @@ public class GameActivity extends Activity {
         float viewY = screenY - location[1];
         Position touchedCellPosition = findTouchedCellPosition((int) viewX, (int) viewY);
 
-        Boolean isMovedToNew = gameController.moveToPosition(touchedCellPosition);
-        Boolean isMovedBack = gameController.moveBackIfBody(touchedCellPosition);
+        Boolean isMovedToNew = gameController.moveToPosition(this.getApplicationContext(),
+                touchedCellPosition);
+        Boolean isMovedBack = gameController.moveBackIfBody(getApplicationContext(), touchedCellPosition);
 
         Boolean needUpdate = isMovedToNew || isMovedBack;
 

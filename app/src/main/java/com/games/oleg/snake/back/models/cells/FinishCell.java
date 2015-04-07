@@ -20,9 +20,9 @@ public class FinishCell extends Cell {
 
     public FinishCell(CellType cellType, Context context) {
         super(cellType);
-        Bitmap obstacleBitmap = BitmapFactory.decodeResource(context.getResources(), drawableId);
-        obstacleBitmap = super.makeBitmapTransparent(obstacleBitmap, Color.WHITE);
-        cellDrawable = new BitmapDrawable(context.getResources(),obstacleBitmap);
+        Bitmap cellBitmap = BitmapFactory.decodeResource(context.getResources(), drawableId);
+        cellBitmap = super.makeBitmapTransparent(cellBitmap, Color.WHITE);
+        cellDrawable = new BitmapDrawable(context.getResources(),cellBitmap);
     }
 
     public void drawCell(Canvas canvas, Rect bounds) {

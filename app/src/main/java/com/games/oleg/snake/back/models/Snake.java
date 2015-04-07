@@ -40,4 +40,11 @@ public class Snake {
         return new Position(-1,-1);
     }
 
+    public Position getPreLastBodyPosition() {
+        if (bodyPositions.size()>1)
+            return bodyPositions.get(bodyPositions.size()-2);
+
+        return new Position(-1,-1);
+    }
+
 }

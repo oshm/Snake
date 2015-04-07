@@ -7,6 +7,7 @@ import com.games.oleg.snake.back.models.cells.Cell;
 import com.games.oleg.snake.back.models.cells.CellOrientation;
 import com.games.oleg.snake.back.models.cells.CellType;
 import com.games.oleg.snake.back.models.cells.FinishCell;
+import com.games.oleg.snake.back.models.cells.HeadCell;
 import com.games.oleg.snake.back.models.cells.ObstacleCell;
 
 import java.util.ArrayList;
@@ -107,14 +108,18 @@ public class Field {
         return grid[y][x];
     }
 
-    public void setNewHead(Position oldHeadPosition, Position newHeadPosition) {
+    public void setNewHead(Context context, Position oldHeadPosition,
+                           Position newHeadPosition, CellOrientation headOrientation) {
         this.getGrid()[oldHeadPosition.getY()][oldHeadPosition.getX()] = new Cell(CellType.BodyCell);
-        this.getGrid()[newHeadPosition.getY()][newHeadPosition.getX()] = new Cell(CellType.HeadCell);
+        this.getGrid()[newHeadPosition.getY()][newHeadPosition.getX()] =
+                new HeadCell(context, CellType.HeadCell, headOrientation);
     }
 
-    public void moveBackForHead(Position oldHeadPosition, Position newHeadPosition) {
+    public void moveBackForHead(Context context, Position oldHeadPosition, Position newHeadPosition,
+                                CellOrientation headOrientation) {
         this.getGrid()[oldHeadPosition.getY()][oldHeadPosition.getX()] = new Cell(CellType.EmptyCell);
-        this.getGrid()[newHeadPosition.getY()][newHeadPosition.getX()] = new Cell(CellType.HeadCell);
+        this.getGrid()[newHeadPosition.getY()][newHeadPosition.getX()] =
+                new HeadCell(context, CellType.HeadCell, headOrientation);
     }
 
     public int getSizeX() {
