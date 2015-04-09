@@ -25,7 +25,7 @@ public class ChooseLevelView extends View {
     @Override
     protected void onLayout (boolean changed, int left, int top, int right, int bottom) {
         this.width = (right - left)/(float) maxCellsX;;
-        this.height = (bottom - top)/(float) maxCellsY;;
+        this.height = (bottom - top)/(float) maxCellsY;
     }
 
     protected void onDraw(Canvas canvas) {

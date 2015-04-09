@@ -22,7 +22,6 @@ public class MainMenuActivity extends Activity implements OnClickListener{
         exitGameButton.setOnClickListener(this);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -54,7 +53,6 @@ public class MainMenuActivity extends Activity implements OnClickListener{
                 break;
             }
         }
-
     }
 
     public void startGame() {
