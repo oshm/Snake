@@ -34,12 +34,12 @@ public class GameController {
         this.snake = new Snake(this.field.getStartPosition());
     }
 
-    public boolean isLevelFinished() {
-        return (isAllFieldCovered() && isOnFinish());
+    public boolean isLevelFinished(Position positionToMove) {
+        return (isAllFieldCovered() && isOnFinish(positionToMove));
     }
 
-    private boolean isOnFinish() {
-        if ( this.getSnake().getHeadPosition().isEqualTo(this.getField().getFinishPosition()) )
+    public boolean isOnFinish(Position positionToMove) {
+        if ( positionToMove.isEqualTo(this.getField().getFinishPosition()) )
             return true;
         else
             return false;

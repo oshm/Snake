@@ -82,6 +82,13 @@ public class GameActivity extends Activity {
         float viewY = screenY - location[1];
         Position touchedCellPosition = findTouchedCellPosition((int) viewX, (int) viewY);
 
+        if (gameController.isLevelFinished(touchedCellPosition)) {
+            Dialog levelFinishedDialog = new LevelFinishedDialog(this, levelNumber);
+            levelFinishedDialog.show();
+        }
+        else if (gameController.isOnFinish(touchedCellPosition))
+            return false;
+
         Boolean isMovedToNew = gameController.moveToPosition(this.getApplicationContext(),
                 touchedCellPosition);
         Boolean isMovedBack = gameController.moveBackIfBody(getApplicationContext(), touchedCellPosition);
@@ -91,10 +98,6 @@ public class GameActivity extends Activity {
         if (needUpdate)
             gameView.updateField(gameController.getField());
 
-        if (gameController.isLevelFinished()) {
-            Dialog levelFinishedDialog = new LevelFinishedDialog(this, levelNumber);
-            levelFinishedDialog.show();
-        }
         return false;
     }
 
