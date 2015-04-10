@@ -69,6 +69,7 @@ public class GameView extends View {
     }
 
     public void updateTouched(float x, float y) {
+        //TODO: Paste some animation here!
         this.x = x;
         this.y = y;
         this.invalidate();
@@ -116,41 +117,10 @@ public class GameView extends View {
     }
 
     private void drawCell(Canvas canvas, int currentX, int currentY) {
-
-        Paint cellColour = new Paint();
-
         Cell cellToDraw = gridToDraw[currentY][currentX];
-        switch (cellToDraw.getCellType()) {
-            case HeadCell: {
-                Rect bounds = new Rect((int)(currentX*width),(int)(currentY*height),
-                        (int)(currentX*width + width), (int)(currentY*height+height));
-                cellToDraw.drawCell(canvas, bounds);
-                break;
-            }
-            case BodyCell: {
-                Rect bounds = new Rect((int)(currentX*width),(int)(currentY*height),
-                        (int)(currentX*width + width), (int)(currentY*height+height));
-                cellToDraw.drawCell(canvas, bounds);
-                /*
-                cellColour.setColor(getResources().getColor(R.color.snake_body));
-                canvas.drawCircle(currentX * width + width / 2, currentY * height + height / 2,
-                        width / 2, cellColour);*/
-                break;
-            }
-            case ObstacleCell: {
-                Rect bounds = new Rect((int)(currentX*width),(int)(currentY*height),
-                        (int)(currentX*width + width), (int)(currentY*height+height));
-                cellToDraw.drawCell(canvas, bounds);
-                break;
-            }
-
-            case FinishCell: {
-                Rect bounds = new Rect((int)(currentX*width),(int)(currentY*height),
-                        (int)(currentX*width + width), (int)(currentY*height+height));
-                cellToDraw.drawCell(canvas, bounds);
-                break;
-            }
-        }
+        Rect bounds = new Rect((int) (currentX * width), (int) (currentY * height),
+                (int) (currentX * width + width), (int) (currentY * height + height));
+        cellToDraw.drawCell(canvas, bounds);
     }
 
     private void drawStartAndFinish(Canvas canvas) {
