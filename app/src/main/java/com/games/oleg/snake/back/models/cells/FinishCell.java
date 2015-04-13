@@ -10,6 +10,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 import com.games.oleg.snake.R;
+import com.games.oleg.snake.back.controllers.DrawableController;
 
 /**
  * Created by oleg on 05.04.15.
@@ -21,7 +22,7 @@ public class FinishCell extends Cell {
     public FinishCell(CellType cellType, Context context) {
         super(cellType);
         Bitmap cellBitmap = BitmapFactory.decodeResource(context.getResources(), drawableId);
-        cellBitmap = super.makeBitmapTransparent(cellBitmap, Color.WHITE);
+        cellBitmap = DrawableController.makeBitmapTransparent(cellBitmap, Color.WHITE);
         cellDrawable = new BitmapDrawable(context.getResources(),cellBitmap);
     }
 

@@ -11,31 +11,24 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 import com.games.oleg.snake.R;
+import com.games.oleg.snake.back.controllers.DrawableController;
 import com.games.oleg.snake.back.models.SpritesSheet;
 
 /**
  * Created by oleg on 05.04.15.
  */
 public class BodyCell extends Cell {
-    private int drawableId = R.drawable.snake;
-    private Bitmap cellBitmap;
     private Drawable cellDrawable;
-    private Resources resources;
 
     public BodyCell(Context context, CellType cellType, CellOrientation cellOrientation) {
         super(cellType);
-        this.cellOrientation = cellOrientation;
         this.resources = context.getResources();
-        SpritesSheet snakeSheet = new SpritesSheet(context, drawableId, 2, 1);
-        cellBitmap = snakeSheet.getBitmapFromPosition(2, 1);
-        cellBitmap = super.makeBitmapTransparent(cellBitmap, Color.WHITE);
-        cellBitmap = super.rotateBitmap(cellBitmap, 90);
-        cellDrawable = new BitmapDrawable(context.getResources(), cellBitmap);
+        this.cellOrientation = cellOrientation;
     }
 
     public void drawCell(Canvas canvas, Rect bounds) {
         Bitmap bitmapToDraw;
-        bitmapToDraw = super.rotateBitmap(cellBitmap, cellOrientation);
+        bitmapToDraw = DrawableController.getBodyBitmap(cellOrientation, resources);
         cellDrawable = new BitmapDrawable(resources, bitmapToDraw);
         cellDrawable.setBounds(bounds);
         cellDrawable.draw(canvas);

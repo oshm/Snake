@@ -29,7 +29,7 @@ public class GameView extends View {
     private int maxCellsX;        // number of cells in field horizontally
     private int maxCellsY;        //number of cells in field vertically
 
-     private float width;            //width of one square
+    private float width;            //width of one square
     private float height;           //height of one square
     float x = -30;
     float y = -30;
