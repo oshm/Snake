@@ -35,7 +35,6 @@ public class GameView extends View {
     float y = -30;
 
     private Drawable backgroundImage;
-    private Drawable obstacleImage;
 
 
     public GameView(Context context, Field fieldToDraw) {
@@ -49,10 +48,8 @@ public class GameView extends View {
         maxCellsX = fieldToDraw.getSizeX();
         maxCellsY = fieldToDraw.getSizeY();
         backgroundImage = context.getResources().getDrawable(R.drawable.game_grass_background);
-        //obstacleImage = context.getResources().getDrawable(R.drawable.stone);
         Bitmap obstacleBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.stone);
         obstacleBitmap = makeBitmapTransparent(obstacleBitmap, Color.WHITE);
-        obstacleImage = new BitmapDrawable(getResources(),obstacleBitmap);
     }
 
     @Override

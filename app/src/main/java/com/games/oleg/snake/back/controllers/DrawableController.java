@@ -12,6 +12,9 @@ import android.graphics.drawable.Drawable;
 import com.games.oleg.snake.R;
 import com.games.oleg.snake.back.models.cells.CellOrientation;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * Created by oleg.shlemin on 13.04.2015.
  */
@@ -31,6 +34,13 @@ public class DrawableController {
     private static Bitmap bodyBitmapDown;
     private static Bitmap bodyBitmapLeft;
     private static Bitmap bodyBitmapRight;
+
+    private static int turnId = R.drawable.sturn;
+    private static Bitmap turnBitmap;
+    private static Bitmap turnBitmapUpLeft;
+    private static Bitmap turnBitmapUpRight;;
+    private static Bitmap turnBitmapDownLeft;;
+    private static Bitmap turnBitmapDownRight;
 
     private static int stoneId = R.drawable.stone01;
     private static Bitmap stoneBitmap;
@@ -149,5 +159,43 @@ public class DrawableController {
         }
 
         return stoneBitmap;
+    }
+
+
+    public static Bitmap getTurnBitmap(Resources resources, ArrayList<CellOrientation> cellOrientations) {
+        if (turnBitmap == null) {
+            turnBitmap = BitmapFactory.decodeResource(resources, turnId);
+            turnBitmap = makeBitmapTransparent(turnBitmap, backgroundColor);
+        }
+
+        Boolean isLeft = cellOrientations.contains(CellOrientation.Left);
+        Boolean isUp = cellOrientations.contains(CellOrientation.Up);
+
+        if (isUp) {
+            if (isLeft) {
+                if (turnBitmapUpLeft == null) {
+                    turnBitmapUpLeft = rotateBitmap(turnBitmap, 180);
+                }
+                return turnBitmapUpLeft;
+            } else {
+                if (turnBitmapUpRight == null) {
+                    turnBitmapUpRight = rotateBitmap(turnBitmap, 270);
+                }
+                return turnBitmapUpRight;
+            }
+        }
+        else {
+            if (isLeft) {
+                if (turnBitmapDownLeft == null) {
+                    turnBitmapDownLeft = rotateBitmap(turnBitmap, 90);
+                }
+                return turnBitmapDownLeft;
+            } else {
+                if (turnBitmapDownRight == null) {
+                    turnBitmapDownRight = turnBitmap;
+                }
+                return turnBitmapDownRight;
+            }
+        }
     }
 }
