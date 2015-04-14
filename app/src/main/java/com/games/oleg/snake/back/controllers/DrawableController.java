@@ -1,19 +1,14 @@
 package com.games.oleg.snake.back.controllers;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 
 import com.games.oleg.snake.R;
 import com.games.oleg.snake.back.models.cells.CellOrientation;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by oleg.shlemin on 13.04.2015.
@@ -41,6 +36,8 @@ public class DrawableController {
     private static Bitmap turnBitmapUpRight;;
     private static Bitmap turnBitmapDownLeft;;
     private static Bitmap turnBitmapDownRight;
+
+
 
     private static int stoneId = R.drawable.stone01;
     private static Bitmap stoneBitmap;
@@ -162,40 +159,68 @@ public class DrawableController {
     }
 
 
-    public static Bitmap getTurnBitmap(Resources resources, ArrayList<CellOrientation> cellOrientations) {
+    public static Bitmap getTurnBitmap(Resources resources, CellOrientation bodyOrientation, CellOrientation headOrientation) {
+        if (turnBitmap == null) {
+            initTurnBitmaps(resources);
+        }
+
+        switch (bodyOrientation) {
+            case Up: {
+                if (headOrientation.equals(CellOrientation.Left))
+                    return  turnBitmapDownLeft;
+                else
+                    return turnBitmapDownRight;
+            }
+            case Down: {
+                if (headOrientation.equals(CellOrientation.Left))
+                    return  turnBitmapUpLeft;
+                else
+                    return turnBitmapUpRight;
+            }
+
+            case Left: {
+                if (headOrientation.equals(CellOrientation.Up))
+                    return  turnBitmapUpRight;
+                else
+                    return turnBitmapDownRight;
+            }
+
+            case Right: {
+                if (headOrientation.equals(CellOrientation.Up))
+                    return  turnBitmapUpLeft;
+                else
+                    return turnBitmapDownLeft;
+            }
+
+            default:
+                return turnBitmap;
+
+        }
+
+    }
+
+    public static void initTurnBitmaps(Resources resources) {
         if (turnBitmap == null) {
             turnBitmap = BitmapFactory.decodeResource(resources, turnId);
             turnBitmap = makeBitmapTransparent(turnBitmap, backgroundColor);
         }
 
-        Boolean isLeft = cellOrientations.contains(CellOrientation.Left);
-        Boolean isUp = cellOrientations.contains(CellOrientation.Up);
-
-        if (isUp) {
-            if (isLeft) {
-                if (turnBitmapUpLeft == null) {
-                    turnBitmapUpLeft = rotateBitmap(turnBitmap, 180);
-                }
-                return turnBitmapUpLeft;
-            } else {
-                if (turnBitmapUpRight == null) {
-                    turnBitmapUpRight = rotateBitmap(turnBitmap, 270);
-                }
-                return turnBitmapUpRight;
-            }
+        if (turnBitmapDownRight == null) {
+            turnBitmapDownRight = rotateBitmap(turnBitmap, 0);
         }
-        else {
-            if (isLeft) {
-                if (turnBitmapDownLeft == null) {
-                    turnBitmapDownLeft = rotateBitmap(turnBitmap, 90);
-                }
-                return turnBitmapDownLeft;
-            } else {
-                if (turnBitmapDownRight == null) {
-                    turnBitmapDownRight = turnBitmap;
-                }
-                return turnBitmapDownRight;
-            }
+
+        if (turnBitmapDownLeft == null) {
+            turnBitmapDownLeft = rotateBitmap(turnBitmap, 90);
+        }
+
+        if (turnBitmapUpLeft == null) {
+            turnBitmapUpLeft = rotateBitmap(turnBitmap, 180);
+        }
+
+        if (turnBitmapUpRight == null) {
+            turnBitmapUpRight = rotateBitmap(turnBitmap, 270);
         }
     }
+
+
 }
