@@ -1,16 +1,13 @@
 package com.games.oleg.snake;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
+import com.games.oleg.snake.back.threads.BackgroundAnimationThread;
 import com.games.oleg.snake.back.models.Field;
 import com.games.oleg.snake.back.models.Position;
 import com.games.oleg.snake.back.models.cells.Cell;
@@ -23,7 +20,9 @@ import com.games.oleg.snake.back.models.cells.StartCell;
  */
 public class GameView extends View {
     private final GameActivity gameActivity;
+    //private BackgroundAnimationThread animationThread;
     private Cell[][] gridToDraw;
+    private StartCell startCell;
     private Position startPosition;
     private Position finishPosition;
     private int maxCellsX;        // number of cells in field horizontally
@@ -44,26 +43,45 @@ public class GameView extends View {
         setFocusableInTouchMode(true);
         this.gridToDraw = fieldToDraw.getGrid();
         this.startPosition = fieldToDraw.getStartPosition();
+        if (startCell == null) {
+            startCell = new StartCell(CellType.StartCell, getContext());
+        }
         this.finishPosition = fieldToDraw.getFinishPosition();
         maxCellsX = fieldToDraw.getSizeX();
         maxCellsY = fieldToDraw.getSizeY();
         backgroundImage = context.getResources().getDrawable(R.drawable.game_grass_background);
-        Bitmap obstacleBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.stone);
-        obstacleBitmap = makeBitmapTransparent(obstacleBitmap, Color.WHITE);
+        this.setWillNotDraw(false);
+        //animationThread = new BackgroundAnimationThread(this);
     }
 
     @Override
     protected void onLayout (boolean changed, int left, int top, int right, int bottom) {
-        this.width = (right - left)/(float) maxCellsX;;
-        this.height = (bottom - top)/(float) maxCellsY;;
+        this.width = (right - left) / (float) maxCellsX;
+        this.height = (bottom - top) / (float) maxCellsY;
+        /*
+        animationThread.setRunning(true);
+        if (!animationThread.isAlive())
+            animationThread.start();
+            */
     }
 
+    @Override
     protected void onDraw(Canvas canvas) {
         drawBackground(canvas);
         drawGrid(canvas);
         drawField(canvas);
         drawStartAndFinish(canvas);
     }
+
+    @Override
+    protected void dispatchDraw(Canvas canvas) {
+        drawBackground(canvas);
+        drawGrid(canvas);
+        drawField(canvas);
+        drawStartAndFinish(canvas);
+    }
+
+
 
     public void updateTouched(float x, float y) {
         //TODO: Paste some animation here!
@@ -73,17 +91,8 @@ public class GameView extends View {
     }
 
     private void drawBackground(Canvas canvas) {
-        /*
-        Paints background to colour
-        Paint background = new Paint();
-        background.setColor(getResources().getColor(R.color.game_background));
-        canvas.drawRect(0,0, getWidth(), getHeight(), background);
-        */
-        Rect imageBounds = canvas.getClipBounds();  // Adjust this for where you want it
-
         backgroundImage.setBounds(canvas.getClipBounds());
         backgroundImage.draw(canvas);
-
     }
 
     private void drawGrid(Canvas canvas) {
@@ -114,6 +123,9 @@ public class GameView extends View {
     }
 
     private void drawCell(Canvas canvas, int currentX, int currentY) {
+        // Do not draw cells if on start
+        if (new Position(currentX, currentY).equals(startPosition))
+            return;
         Cell cellToDraw = gridToDraw[currentY][currentX];
         Rect bounds = new Rect((int) (currentX * width), (int) (currentY * height),
                 (int) (currentX * width + width), (int) (currentY * height + height));
@@ -121,7 +133,6 @@ public class GameView extends View {
     }
 
     private void drawStartAndFinish(Canvas canvas) {
-        Cell startCell = new StartCell(CellType.StartCell, getContext());
         Rect bounds = new Rect((int)(startPosition.getX()*width),(int)(startPosition.getY()*height),
                 (int)(startPosition.getX()*width + width), (int)(startPosition.getY()*height+height));
         startCell.drawCell(canvas, bounds);
@@ -132,25 +143,6 @@ public class GameView extends View {
         finishCell.drawCell(canvas, bounds);
     }
 
-    // Convert transparentColor to be transparent in a Bitmap. TODO:Should moved out of here.
-    private Bitmap makeBitmapTransparent(Bitmap bit, int transparentColor) {
-        int width =  bit.getWidth();
-        int height = bit.getHeight();
-        Bitmap myBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        int [] allpixels = new int [ myBitmap.getHeight()*myBitmap.getWidth()];
-        bit.getPixels(allpixels, 0, myBitmap.getWidth(), 0, 0, myBitmap.getWidth(),myBitmap.getHeight());
-        myBitmap.setPixels(allpixels, 0, width, 0, 0, width, height);
-
-        for(int i =0; i<myBitmap.getHeight()*myBitmap.getWidth();i++){
-            if( allpixels[i] == transparentColor)
-
-                allpixels[i] = Color.alpha(Color.TRANSPARENT);
-        }
-
-        myBitmap.setPixels(allpixels, 0, myBitmap.getWidth(), 0, 0, myBitmap.getWidth(), myBitmap.getHeight());
-        return myBitmap;
-    }
-
     public void updateField(Field updatedField) {
         this.gridToDraw = updatedField.getGrid();
         this.maxCellsX = updatedField.getSizeX();
@@ -158,6 +150,32 @@ public class GameView extends View {
         this.startPosition = updatedField.getStartPosition();
         this.finishPosition = updatedField.getFinishPosition();
         this.invalidate();
+    }
+
+    public void updateStart(int startState) {
+        if (startCell == null) {
+            startCell = new StartCell(CellType.StartCell, getContext());
+        }
+        startCell.setState(startState);
+        this.invalidate();
+    }
+
+
+    public void updateBackground() {
+        try {
+
+
+            this.updateStart(0);
+            Thread.sleep(1000);
+            this.updateStart(1);
+            Thread.sleep(1000);
+            this.updateStart(0);
+            Thread.sleep(1000);
+            this.updateStart(1);
+            Thread.sleep(1000);
+            this.updateStart(0);
+        }
+        catch (InterruptedException ie) {};
     }
 
     public float getCellWidth() {

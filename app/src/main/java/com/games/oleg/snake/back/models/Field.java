@@ -26,24 +26,6 @@ public class Field {
     private int sizeX;
     private int sizeY;
 
-    public Field(int size) {
-        this.sizeX = size;
-        this.sizeY = size;
-        this.grid = new Cell[sizeY][sizeX];
-        for (int i=0; i<sizeY; i++){
-            for (int j=0;j<sizeX; j++){
-                grid[i][j] = new Cell(CellType.EmptyCell);
-            }
-        }
-
-        Position startPosition = new Position(0,0);
-        this.startPosition =startPosition;
-        grid[startPosition.getY()][startPosition.getX()] = new Cell(CellType.StartCell);
-
-        Position finishPosition = new Position(size-1,size-1);
-        this.finishPosition = finishPosition;
-        grid[finishPosition.getY()][finishPosition.getX()] = new Cell(CellType.FinishCell);
-    }
 
     public void CreateField(Context context, int sizeX, int sizeY, int startX, int startY,
                  int finishX, int finishY, ArrayList<Position> obstacles) {
@@ -143,8 +125,6 @@ public class Field {
     public int getSizeY() {
         return sizeY;
     }
-
-
 
 
 }

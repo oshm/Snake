@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -21,7 +22,30 @@ public class GameActivity extends Activity {
     public static final String KEY_LEVEL_NUMBER =
             "com.games.oleg.snake.level_number" ;
     private int levelNumber;
+    /*
+    private Handler animationHandler = new Handler();
+    private Runnable  animationRunnable= new Runnable() {
+        @Override
+        public void run() {
+            try {
+                gameView.updateStart(0);
+                Thread.sleep(1000);
+                gameView.updateStart(1);
+                Thread.sleep(1000);
+                gameView.updateStart(0);
+                Thread.sleep(1000);
+                gameView.updateStart(1);
+                Thread.sleep(1000);
+                gameView.updateStart(0);
+                //Thread.sleep(1000);
+                //gameView.updateStart(1);
+            }
+            catch (InterruptedException ie) {}
+            animationHandler.postDelayed(this, 5000);
+        }
 
+    };
+*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +60,8 @@ public class GameActivity extends Activity {
         gameView = new GameView(this, gameController.getField());
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(gameView);
+       // animationHandler.postDelayed(animationRunnable, 5000);
+
     }
 
     private  XmlResourceParser readLevel (int levelNumber) {
@@ -70,6 +96,7 @@ public class GameActivity extends Activity {
     }
 
     public boolean onTouchEvent(MotionEvent event) {
+        gameView.updateBackground();
         if (event.getAction() != MotionEvent.ACTION_DOWN)
             return super.onTouchEvent(event);
 
@@ -113,4 +140,7 @@ public class GameActivity extends Activity {
         //
         return touchedCellPosition;
     }
+
+
+
 }

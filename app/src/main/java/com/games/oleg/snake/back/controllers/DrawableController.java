@@ -37,10 +37,13 @@ public class DrawableController {
     private static Bitmap turnBitmapDownLeft;;
     private static Bitmap turnBitmapDownRight;
 
-
-
     private static int stoneId = R.drawable.stone01;
     private static Bitmap stoneBitmap;
+
+    private static int startHoleId = R.drawable.hole01;
+    private static int startHoleWithEyesId = R.drawable.hole02;
+    private static Bitmap startHoleBitmap;
+    private static Bitmap startHoleWithEyesBitmap;
 
 
     public static Bitmap makeBitmapTransparent(Bitmap bit, int transparentColor) {
@@ -80,6 +83,25 @@ public class DrawableController {
         return rotatedBitmap;
     }
 
+    public static Bitmap getStartBitmap(Resources resources, int state) {
+        if (startHoleBitmap == null) {
+            initStartBitmaps(resources);
+        }
+
+        if (state==0)
+            return startHoleBitmap;
+        else
+            return startHoleWithEyesBitmap;
+    }
+
+    public static Bitmap getObstacleBitmap(Resources resources) {
+        if (stoneBitmap == null) {
+            stoneBitmap = BitmapFactory.decodeResource(resources, stoneId);
+            stoneBitmap = makeBitmapTransparent(stoneBitmap, backgroundColor);
+        }
+
+        return stoneBitmap;
+    }
 
     public static Bitmap getBodyBitmap(CellOrientation cellOrientation, Resources resources) {
         if (bodyBitmap == null) {
@@ -112,7 +134,6 @@ public class DrawableController {
 
         return bodyBitmap;
     }
-
 
     public static Bitmap getHeadBitmap(CellOrientation cellOrientation, Resources resources) {
         if (headBitmap == null) {
@@ -147,17 +168,6 @@ public class DrawableController {
 
         return headBitmap;
     }
-
-
-    public static Bitmap getObstacleBitmap(Resources resources) {
-        if (stoneBitmap == null) {
-            stoneBitmap = BitmapFactory.decodeResource(resources, stoneId);
-            stoneBitmap = makeBitmapTransparent(stoneBitmap, backgroundColor);
-        }
-
-        return stoneBitmap;
-    }
-
 
     public static Bitmap getTurnBitmap(Resources resources, CellOrientation bodyOrientation, CellOrientation headOrientation) {
         if (turnBitmap == null) {
@@ -222,5 +232,16 @@ public class DrawableController {
         }
     }
 
+    public static void initStartBitmaps(Resources resources) {
+        if (startHoleBitmap == null) {
+            startHoleBitmap = BitmapFactory.decodeResource(resources, startHoleId);
+            startHoleBitmap = makeBitmapTransparent(startHoleBitmap, backgroundColor);
+        }
+
+        if (startHoleWithEyesBitmap == null) {
+            startHoleWithEyesBitmap = BitmapFactory.decodeResource(resources, startHoleWithEyesId);
+            startHoleWithEyesBitmap = makeBitmapTransparent(startHoleWithEyesBitmap, backgroundColor);
+        }
+    }
 
 }

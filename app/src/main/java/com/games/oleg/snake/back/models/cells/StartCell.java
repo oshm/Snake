@@ -16,17 +16,31 @@ import com.games.oleg.snake.back.controllers.DrawableController;
  * Created by oleg on 05.04.15.
  */
 public class StartCell extends Cell {
-    private int drawableId = R.drawable.start;
     private Drawable cellDrawable;
+    private int state;
+    private final int HOLE_EMPTY = 0;
+    private final int HOLE_WITH_EYES = 1;
 
     public StartCell(CellType cellType, Context context) {
         super(cellType);
-        Bitmap cellBitmap = BitmapFactory.decodeResource(context.getResources(), drawableId);
-        cellBitmap = DrawableController.makeBitmapTransparent(cellBitmap, Color.WHITE);
+        state = HOLE_EMPTY;
+        resources = context.getResources();
+        Bitmap cellBitmap = DrawableController.getStartBitmap(resources, state);
         cellDrawable = new BitmapDrawable(context.getResources(),cellBitmap);
     }
 
+    public void setState(int state) {
+        this.state = state;
+        Bitmap cellBitmap = DrawableController.getStartBitmap(resources, state);
+        cellDrawable = new BitmapDrawable(this.resources,cellBitmap);
+    }
+
+    public int getState() {
+        return state;
+    }
+
     public void drawCell(Canvas canvas, Rect bounds) {
+
         cellDrawable.setBounds(bounds);
         cellDrawable.draw(canvas);
     }
