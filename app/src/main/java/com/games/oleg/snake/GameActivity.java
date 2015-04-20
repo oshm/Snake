@@ -18,7 +18,7 @@ import com.games.oleg.snake.back.models.Position;
 
 public class GameActivity extends Activity {
     private GameController gameController;
-    private GameView gameView;
+    private NewGameView gameView;
     public static final String KEY_LEVEL_NUMBER =
             "com.games.oleg.snake.level_number" ;
     private int levelNumber;
@@ -57,7 +57,7 @@ public class GameActivity extends Activity {
         level = readLevel(levelNumber);
         gameController.startGame(level, getApplicationContext());
 
-        gameView = new GameView(this, gameController.getField());
+        gameView = new NewGameView(this, gameController.getField());
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(gameView);
        // animationHandler.postDelayed(animationRunnable, 5000);
@@ -96,7 +96,7 @@ public class GameActivity extends Activity {
     }
 
     public boolean onTouchEvent(MotionEvent event) {
-        gameView.updateBackground();
+        //gameView.updateBackground();
         if (event.getAction() != MotionEvent.ACTION_DOWN)
             return super.onTouchEvent(event);
 
@@ -136,7 +136,7 @@ public class GameActivity extends Activity {
         Position touchedCellPosition = new Position(cellX, cellY);
 
         //for testing
-        gameView.updateTouched(touchX, touchY);
+        //gameView.updateTouched(touchX, touchY);
         //
         return touchedCellPosition;
     }
