@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.games.oleg.snake.back.models.Field;
@@ -58,7 +59,7 @@ public class GameActivity extends Activity {
         gameController.startGame(level, getApplicationContext());
 
         gameView = new NewGameView(this, gameController.getField());
-        //requestWindowFeature(Window.FEATURE_NO_TITLE);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(gameView);
        // animationHandler.postDelayed(animationRunnable, 5000);
 
@@ -141,6 +142,12 @@ public class GameActivity extends Activity {
         return touchedCellPosition;
     }
 
+    public void setDrawThreadRunning(boolean run) {
+        gameView.setDrawThreadRunning(run);
+    }
 
 
+    public void updateStart(int startState) {
+        gameView.updateStart(startState);
+    }
 }

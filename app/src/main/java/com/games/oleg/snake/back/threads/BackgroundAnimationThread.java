@@ -3,6 +3,7 @@ package com.games.oleg.snake.back.threads;
 import android.util.Log;
 
 import com.games.oleg.snake.GameView;
+import com.games.oleg.snake.NewGameView;
 
 /**
  * Created by oleg.shlemin on 15.04.2015.
@@ -13,13 +14,13 @@ public class BackgroundAnimationThread extends Thread {
     private final static int MAX_FRAME_SKIPS = 5;
     private final static int FRAME_PERIOD = 1000 / MAX_FPS;
     private boolean running = false;
-    GameView gameView;
+    NewGameView gameView;
     long threadStartTime; // the time when the thread begun
     long threadWorkTime = 0;
     long startAnimationTriggerTime = 0;
 
 
-    public BackgroundAnimationThread(GameView gameView) {
+    public BackgroundAnimationThread(NewGameView gameView) {
         this.gameView = gameView;
     }
 

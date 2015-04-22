@@ -41,8 +41,13 @@ public class LevelFinishedDialog extends Dialog implements View.OnClickListener 
 
     public void goToNextLvl(Context context) {
         //gameActivity.startNewLevel(levelNumber);
+        GameActivity act = (GameActivity) context;
+        act.setDrawThreadRunning(false);
+        act.finish();
+
         Intent i = new Intent(context, GameActivity.class);
         i.putExtra(KEY_LEVEL_NUMBER, levelNumber+1);
+
         context.startActivity(i);
     }
 

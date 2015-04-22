@@ -196,4 +196,15 @@ public class NewGameView extends SurfaceView implements SurfaceHolder.Callback  
         return this.height;
     }
 
+    public void setDrawThreadRunning(boolean run) {
+        gameLoopThread.setRunning(run);
+    }
+
+    public void updateStart(int startState) {
+        if (startCell == null) {
+            startCell = new StartCell(CellType.StartCell, getContext());
+        }
+        startCell.setState(startState);
+    }
+
 }

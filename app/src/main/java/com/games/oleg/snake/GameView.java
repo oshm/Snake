@@ -160,24 +160,6 @@ public class GameView extends View {
         this.invalidate();
     }
 
-
-    public void updateBackground() {
-        try {
-
-
-            this.updateStart(0);
-            Thread.sleep(1000);
-            this.updateStart(1);
-            Thread.sleep(1000);
-            this.updateStart(0);
-            Thread.sleep(1000);
-            this.updateStart(1);
-            Thread.sleep(1000);
-            this.updateStart(0);
-        }
-        catch (InterruptedException ie) {};
-    }
-
     public float getCellWidth() {
         return this.width;
     }

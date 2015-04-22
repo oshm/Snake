@@ -3,6 +3,7 @@ package com.games.oleg.snake.back.threads;
 import android.util.Log;
 
 import com.games.oleg.snake.GameView;
+import com.games.oleg.snake.NewGameView;
 
 /**
  * Created by oleg.shlemin on 15.04.2015.
@@ -13,11 +14,11 @@ public class StartCellAnimationThread extends Thread {
     private final static int MAX_FRAME_SKIPS = 5;
     private final static int FRAME_PERIOD = 1000 / MAX_FPS;
     private boolean running = false;
-    GameView gameView;
+    NewGameView gameView;
     long[] stateTransitionTimes =  new long[]{2000,5000,5500,6000, 6500};
     long threadWorkTime = 0;
 
-    public StartCellAnimationThread(GameView gameView) {
+    public StartCellAnimationThread(NewGameView gameView) {
         this.gameView = gameView;
     }
 
@@ -32,7 +33,6 @@ public class StartCellAnimationThread extends Thread {
         long beginTime;     // the time when the cycle begun
         long timeDiff;      // the time it took for the cycle to execute
         int sleepTime;      // ms to sleep (<0 if we're behind)
-        int framesSkipped;  // number of frames being skipped
         sleepTime = 0;
 
         threadStartTime = System.currentTimeMillis();
@@ -40,7 +40,6 @@ public class StartCellAnimationThread extends Thread {
                 (threadWorkTime < (stateTransitionTimes[stateTransitionTimes.length-1] + 1000)) ) {
             beginTime = System.currentTimeMillis();
             threadWorkTime = System.currentTimeMillis() - threadStartTime;
-            framesSkipped = 0;  // resetting the frames skipped
 
             // update game state
             boolean isStateEyes = (threadWorkTime > stateTransitionTimes[0])
@@ -53,7 +52,6 @@ public class StartCellAnimationThread extends Thread {
                 gameView.updateStart(1);
             else
                 gameView.updateStart(0);
-
 
             // calculate how long did the cycle take
             timeDiff = System.currentTimeMillis() - beginTime;
