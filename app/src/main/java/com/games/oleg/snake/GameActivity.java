@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.Window;
-import android.widget.Toast;
 
 import com.games.oleg.snake.back.models.Field;
 import com.games.oleg.snake.back.controllers.GameController;
@@ -97,7 +96,6 @@ public class GameActivity extends Activity {
     }
 
     public boolean onTouchEvent(MotionEvent event) {
-        //gameView.updateBackground();
         if (event.getAction() != MotionEvent.ACTION_DOWN)
             return super.onTouchEvent(event);
 
@@ -117,9 +115,11 @@ public class GameActivity extends Activity {
         else if (gameController.isOnFinish(touchedCellPosition))
             return false;
 
+
         Boolean isMovedToNew = gameController.moveToPosition(this.getApplicationContext(),
                 touchedCellPosition);
         Boolean isMovedBack = gameController.moveBackIfBody(getApplicationContext(), touchedCellPosition);
+        gameView.getGameLoop().setStartAnimation(this.gameController.isOnStart());
 
         Boolean needUpdate = isMovedToNew || isMovedBack;
 
@@ -146,8 +146,4 @@ public class GameActivity extends Activity {
         gameView.setDrawThreadRunning(run);
     }
 
-
-    public void updateStart(int startState) {
-        gameView.updateStart(startState);
-    }
 }

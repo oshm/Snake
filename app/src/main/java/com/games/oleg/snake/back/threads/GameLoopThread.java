@@ -2,6 +2,7 @@ package com.games.oleg.snake.back.threads;
 
 import android.graphics.Canvas;
 import com.games.oleg.snake.NewGameView;
+import com.games.oleg.snake.back.controllers.GameController;
 
 /**
  * Created by oleg.shlemin on 20.04.2015.
@@ -12,6 +13,7 @@ public class GameLoopThread extends Thread{
     static final long FPS = 10;
     long threadStartTime;
     StartCellAnimationThread startCellAnimationThread;
+    private boolean isStartAnimationNeeded = true;
 
     public GameLoopThread(NewGameView gameView) {
         this.gameView = gameView;
@@ -60,19 +62,26 @@ public class GameLoopThread extends Thread{
         }
     }
 
+    public void setStartAnimation(boolean isNeeded) {
+        this.isStartAnimationNeeded = isNeeded;
+        if (!isNeeded)
+            this.startCellAnimationThread.setRunning(false);
+    }
 
-    private void isStartCellAnimate() {
-        
+    private boolean isStartCellAnimate(long threadWorkTime) {
+        boolean isStartTimePassed = threadWorkTime > 5000;
+        boolean isThreadFree = (startCellAnimationThread == null) ||
+                (!startCellAnimationThread.isAlive());
+
+        return (isStartAnimationNeeded && isStartTimePassed && isThreadFree);
     }
 
 
     private void animateStartCell(long threadWorkTime) {
-        if ( (threadWorkTime > 5000) ) {
-            if (( startCellAnimationThread == null) || (!startCellAnimationThread.isAlive())) {
-                startCellAnimationThread = new StartCellAnimationThread(gameView);
-                startCellAnimationThread.setRunning(true);
-                startCellAnimationThread.start();
-            }
+        if (isStartCellAnimate(threadWorkTime)) {
+            startCellAnimationThread = new StartCellAnimationThread(gameView);
+            startCellAnimationThread.setRunning(true);
+            startCellAnimationThread.start();
         }
     }
 }

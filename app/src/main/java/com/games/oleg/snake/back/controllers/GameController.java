@@ -3,6 +3,8 @@ package com.games.oleg.snake.back.controllers;
 import android.content.Context;
 import android.content.res.XmlResourceParser;
 
+import com.games.oleg.snake.GameView;
+import com.games.oleg.snake.NewGameView;
 import com.games.oleg.snake.back.models.Field;
 import com.games.oleg.snake.back.models.FieldParameters;
 import com.games.oleg.snake.back.models.Position;
@@ -10,12 +12,14 @@ import com.games.oleg.snake.back.models.Snake;
 import com.games.oleg.snake.back.models.cells.Cell;
 import com.games.oleg.snake.back.models.cells.CellOrientation;
 import com.games.oleg.snake.back.models.cells.CellType;
+import com.games.oleg.snake.back.threads.GameLoopThread;
 
 
 /**
  * Created by oleg on 28.10.14.
  */
 public class GameController {
+    GameLoopThread gameLoopThread;
     private Snake snake;
     private Field field;
     private XmlParser xmlParser = new XmlParser();
@@ -43,6 +47,13 @@ public class GameController {
             return true;
         else
             return false;
+    }
+
+    public boolean isOnStart() {
+        Position startPosition = this.getField().getStartPosition();
+        Position headPosition = this.getSnake().getHeadPosition();
+
+        return headPosition.isEqualTo(startPosition);
     }
 
     private boolean isAllFieldCovered() {
@@ -147,5 +158,4 @@ public class GameController {
 
         return CellOrientation.Down;
     }
-
 }

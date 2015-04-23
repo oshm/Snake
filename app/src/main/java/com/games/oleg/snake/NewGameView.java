@@ -207,4 +207,7 @@ public class NewGameView extends SurfaceView implements SurfaceHolder.Callback  
         startCell.setState(startState);
     }
 
+    public GameLoopThread getGameLoop() {
+        return gameLoopThread;
+    }
 }

@@ -1,6 +1,7 @@
 package com.games.oleg.snake.back.models;
 
 import android.content.Context;
+import android.graphics.drawable.GradientDrawable;
 
 import com.games.oleg.snake.back.models.Position;
 import com.games.oleg.snake.back.models.cells.BodyCell;
@@ -98,7 +99,7 @@ public class Field {
         CellOrientation oldHeadOrientation =
                 this.getGrid()[oldHeadPosition.getY()][oldHeadPosition.getX()].getCellOrientation();
 
-        if (headOrientation.equals(oldHeadOrientation)) {
+        if ((headOrientation.equals(oldHeadOrientation)) | oldHeadOrientation.equals(CellOrientation.Invariant)) {
             this.getGrid()[oldHeadPosition.getY()][oldHeadPosition.getX()] =
                     new BodyCell(context, CellType.BodyCell, headOrientation);
         }
