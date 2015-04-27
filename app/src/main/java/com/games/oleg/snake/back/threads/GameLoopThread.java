@@ -64,7 +64,7 @@ public class GameLoopThread extends Thread{
 
     public void setStartAnimation(boolean isNeeded) {
         this.isStartAnimationNeeded = isNeeded;
-        if (!isNeeded)
+        if (!isNeeded && this.startCellAnimationThread!=null)
             this.startCellAnimationThread.setRunning(false);
     }
 
