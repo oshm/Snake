@@ -7,7 +7,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
-import com.games.oleg.snake.back.threads.BackgroundAnimationThread;
 import com.games.oleg.snake.back.models.Field;
 import com.games.oleg.snake.back.models.Position;
 import com.games.oleg.snake.back.models.cells.Cell;
@@ -156,7 +155,7 @@ public class GameView extends View {
         if (startCell == null) {
             startCell = new StartCell(CellType.StartCell, getContext());
         }
-        startCell.setState(startState);
+        startCell.setEyesVisible(startState);
         this.invalidate();
     }
 

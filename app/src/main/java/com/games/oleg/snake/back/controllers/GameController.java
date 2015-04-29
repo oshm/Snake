@@ -56,6 +56,19 @@ public class GameController {
         return headPosition.isEqualTo(startPosition);
     }
 
+    public CellOrientation computeCurrentStartOrientation() {
+        this.getField();
+        this.getField().getCell(this.getField().getStartPosition());
+        if (isOnStart())
+            return CellOrientation.Invariant;
+
+        Position firstBodyPosition = this.getSnake().getFirstBodyPosition();
+        CellOrientation orientation = this.getField().
+                getCell(firstBodyPosition).getCellOrientation();
+
+        return orientation;
+    }
+
     private boolean isAllFieldCovered() {
         boolean hasEmpty = false;
 

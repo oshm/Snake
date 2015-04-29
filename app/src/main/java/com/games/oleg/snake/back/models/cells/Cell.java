@@ -26,10 +26,6 @@ public class Cell{
         return this.cellType;
     }
 
-    public void setCellType(CellType cellType) {
-        this.cellType = cellType;
-    }
-
     public void drawCell(Canvas canvas, Rect bounds) {}
 
     public CellOrientation getCellOrientation() {

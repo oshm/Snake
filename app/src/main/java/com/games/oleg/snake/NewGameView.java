@@ -2,7 +2,6 @@ package com.games.oleg.snake;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -24,10 +23,7 @@ public class NewGameView extends SurfaceView implements SurfaceHolder.Callback  
     private SurfaceHolder holder;
     private GameLoopThread gameLoopThread;
 
-    private Cell[][] gridToDraw;
-    private StartCell startCell;
-    private Position startPosition;
-    private Position finishPosition;
+    private Field fieldToDraw;
     private int maxCellsX;        // number of cells in field horizontally
     private int maxCellsY;        //number of cells in field vertically
 
@@ -46,12 +42,7 @@ public class NewGameView extends SurfaceView implements SurfaceHolder.Callback  
         holder.addCallback(this);
         setFocusable(true);
         setFocusableInTouchMode(true);
-        this.gridToDraw = fieldToDraw.getGrid();
-        this.startPosition = fieldToDraw.getStartPosition();
-        if (startCell == null) {
-            startCell = new StartCell(CellType.StartCell, context);
-        }
-        this.finishPosition = fieldToDraw.getFinishPosition();
+        this.fieldToDraw = fieldToDraw;
         maxCellsX = fieldToDraw.getSizeX();
         maxCellsY = fieldToDraw.getSizeY();
         backgroundImage = context.getResources().getDrawable(R.drawable.game_grass_background);
@@ -154,6 +145,9 @@ public class NewGameView extends SurfaceView implements SurfaceHolder.Callback  
     private void drawField(Canvas canvas) {
         for (int currentY = 0; currentY < maxCellsY; currentY++) {
             for (int currentX = 0; currentX < maxCellsX; currentX++) {
+                if (currentX == fieldToDraw.getStartPosition().getX() &&
+                        currentY == fieldToDraw.getStartPosition().getY())
+                    continue;
                 drawCell(canvas, currentX, currentY);
             }
         }
@@ -161,19 +155,21 @@ public class NewGameView extends SurfaceView implements SurfaceHolder.Callback  
 
     private void drawCell(Canvas canvas, int currentX, int currentY) {
         // Do not draw cells if on start
-        if (new Position(currentX, currentY).equals(startPosition))
+        if (new Position(currentX, currentY).equals(fieldToDraw.getStartPosition()))
             return;
-        Cell cellToDraw = gridToDraw[currentY][currentX];
+        Cell cellToDraw = fieldToDraw.getCell(new Position(currentX, currentY));
         Rect bounds = new Rect((int) (currentX * width), (int) (currentY * height),
                 (int) (currentX * width + width), (int) (currentY * height + height));
         cellToDraw.drawCell(canvas, bounds);
     }
 
     private void drawStartAndFinish(Canvas canvas) {
+        Position startPosition = fieldToDraw.getStartPosition();
         Rect bounds = new Rect((int)(startPosition.getX()*width),(int)(startPosition.getY()*height),
                 (int)(startPosition.getX()*width + width), (int)(startPosition.getY()*height+height));
-        startCell.drawCell(canvas, bounds);
+        fieldToDraw.getStartCell().drawCell(canvas, bounds);
 
+        Position finishPosition = fieldToDraw.getFinishPosition();
         Cell finishCell = new FinishCell(CellType.FinishCell, getContext());
         bounds = new Rect((int)(finishPosition.getX()*width),(int)(finishPosition.getY()*height),
                 (int)(finishPosition.getX()*width + width), (int)(finishPosition.getY()*height+height));
@@ -181,11 +177,9 @@ public class NewGameView extends SurfaceView implements SurfaceHolder.Callback  
     }
 
     public void updateField(Field updatedField) {
-        this.gridToDraw = updatedField.getGrid();
+        this.fieldToDraw = updatedField;
         this.maxCellsX = updatedField.getSizeX();
         this.maxCellsY = updatedField.getSizeY();
-        this.startPosition = updatedField.getStartPosition();
-        this.finishPosition = updatedField.getFinishPosition();
     }
 
     public float getCellWidth() {
@@ -200,12 +194,13 @@ public class NewGameView extends SurfaceView implements SurfaceHolder.Callback  
         gameLoopThread.setRunning(run);
     }
 
-    public void updateStart(int startState) {
+    /*
+    public void updateStart(int eyesVisible) {
         if (startCell == null) {
             startCell = new StartCell(CellType.StartCell, getContext());
         }
-        startCell.setState(startState);
-    }
+        startCell.setEyesVisible(eyesVisible);
+    }*/
 
     public GameLoopThread getGameLoop() {
         return gameLoopThread;

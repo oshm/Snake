@@ -42,8 +42,13 @@ public class DrawableController {
 
     private static int startHoleId = R.drawable.hole01;
     private static int startHoleWithEyesId = R.drawable.hole02;
+    private static int startDownId = R.drawable.hole03;
     private static Bitmap startHoleBitmap;
     private static Bitmap startHoleWithEyesBitmap;
+    private static Bitmap startUp;
+    private static Bitmap startDown;
+    private static Bitmap startLeft;
+    private static Bitmap startRight;
 
 
     public static Bitmap makeBitmapTransparent(Bitmap bit, int transparentColor) {
@@ -83,15 +88,31 @@ public class DrawableController {
         return rotatedBitmap;
     }
 
-    public static Bitmap getStartBitmap(Resources resources, int state) {
+    public static Bitmap getStartBitmap(Resources resources, int eyesVisible, CellOrientation cellOrientation) {
         if (startHoleBitmap == null) {
             initStartBitmaps(resources);
         }
 
-        if (state==0)
+        switch (cellOrientation) {
+            case Up: {
+                return startUp;
+            }
+            case Down: {
+                return startDown;
+            }
+            case Left: {
+                return startLeft;
+            }
+            case Right: {
+                return startRight;
+            }
+        }
+
+        if (eyesVisible==0)
             return startHoleBitmap;
         else
             return startHoleWithEyesBitmap;
+
     }
 
     public static Bitmap getObstacleBitmap(Resources resources) {
@@ -242,6 +263,26 @@ public class DrawableController {
             startHoleWithEyesBitmap = BitmapFactory.decodeResource(resources, startHoleWithEyesId);
             startHoleWithEyesBitmap = makeBitmapTransparent(startHoleWithEyesBitmap, backgroundColor);
         }
+
+        if (startDown == null) {
+            startDown = BitmapFactory.decodeResource(resources, startDownId);
+            startHoleBitmap = makeBitmapTransparent(startDown, backgroundColor);
+        }
+
+        if (startUp == null) {
+            startUp = rotateBitmap(startDown, 180);
+        }
+
+        if (startLeft == null) {
+            startLeft = rotateBitmap(startDown, 270);
+        }
+
+        if (startRight == null) {
+            startRight = rotateBitmap(startDown, 90);
+        }
+
+
+
     }
 
 }

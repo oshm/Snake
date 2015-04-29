@@ -1,6 +1,8 @@
 package com.games.oleg.snake.back.models;
 
 import com.games.oleg.snake.back.models.Position;
+import com.games.oleg.snake.back.models.cells.Cell;
+import com.games.oleg.snake.back.models.cells.CellOrientation;
 
 import java.util.ArrayList;
 
@@ -43,6 +45,13 @@ public class Snake {
     public Position getPreLastBodyPosition() {
         if (bodyPositions.size()>1)
             return bodyPositions.get(bodyPositions.size()-2);
+
+        return new Position(-1,-1);
+    }
+
+    public Position getFirstBodyPosition() {
+        if (bodyPositions.size()>0)
+            return bodyPositions.get(0);
 
         return new Position(-1,-1);
     }

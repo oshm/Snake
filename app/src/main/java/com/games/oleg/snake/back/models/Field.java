@@ -11,6 +11,7 @@ import com.games.oleg.snake.back.models.cells.CellType;
 import com.games.oleg.snake.back.models.cells.FinishCell;
 import com.games.oleg.snake.back.models.cells.HeadCell;
 import com.games.oleg.snake.back.models.cells.ObstacleCell;
+import com.games.oleg.snake.back.models.cells.StartCell;
 import com.games.oleg.snake.back.models.cells.TurnCell;
 
 import java.util.ArrayList;
@@ -24,6 +25,8 @@ public class Field {
     private Cell [][] grid;
     private Position startPosition;
     private Position finishPosition;
+    private StartCell startCell;
+    private FinishCell finishCell;
     private int sizeX;
     private int sizeY;
 
@@ -42,6 +45,7 @@ public class Field {
 
         this.startPosition = new Position(startX, startY);
         grid[startY][startX] = new Cell(CellType.HeadCell);
+        startCell = new StartCell(CellType.StartCell, context);
 
         this.finishPosition = new Position(finishX, finishY);
         grid[finishY][finishX] = new FinishCell(CellType.FinishCell, context);
@@ -127,5 +131,15 @@ public class Field {
         return sizeY;
     }
 
+    public void updateStartEyes(int eyesVisible) {
+        startCell.setEyesVisible(eyesVisible);
+    }
 
+    public void updateStartOrientation(CellOrientation cellOrientation ) {
+        startCell.setCellOrientation(cellOrientation);
+    }
+
+    public StartCell getStartCell() {
+        return startCell;
+    }
 }
