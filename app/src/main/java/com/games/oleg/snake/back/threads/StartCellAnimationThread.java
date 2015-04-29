@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.games.oleg.snake.GameView;
 import com.games.oleg.snake.NewGameView;
+import com.games.oleg.snake.back.controllers.GameController;
 
 /**
  * Created by oleg.shlemin on 15.04.2015.
@@ -49,9 +50,9 @@ public class StartCellAnimationThread extends Thread {
             isStateEyes = isStateEyes | (threadWorkTime > stateTransitionTimes[4]);
 
             if (isStateEyes)
-                gameView.updateStart(1);
+                GameController.getInstance().getField().updateStartEyes(1);
             else
-                gameView.updateStart(0);
+                GameController.getInstance().getField().updateStartEyes(0);
 
             // calculate how long did the cycle take
             timeDiff = System.currentTimeMillis() - beginTime;

@@ -24,6 +24,16 @@ public class GameController {
     private Field field;
     private XmlParser xmlParser = new XmlParser();
 
+    private GameController() {}
+
+    private static class GameControllerHolder {
+        private static final GameController INSTANCE = new GameController();
+    }
+
+    public static GameController getInstance() {
+        return GameControllerHolder.INSTANCE;
+    }
+
     public void startGame(XmlResourceParser level, Context context) {
         //this.field = new Field(size);
 

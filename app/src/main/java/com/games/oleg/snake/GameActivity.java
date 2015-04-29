@@ -52,7 +52,7 @@ public class GameActivity extends Activity {
 
         //setContentView(R.layout.activity_game);
         XmlResourceParser level;
-        gameController = new GameController();
+        gameController = GameController.getInstance();
         levelNumber = getIntent().getIntExtra(KEY_LEVEL_NUMBER, 1);
         level = readLevel(levelNumber);
         gameController.startGame(level, getApplicationContext());
