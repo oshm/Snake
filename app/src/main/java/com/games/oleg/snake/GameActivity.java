@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.Window;
 
-import com.games.oleg.snake.back.models.Field;
 import com.games.oleg.snake.back.controllers.GameController;
 import com.games.oleg.snake.back.models.Position;
 
@@ -72,10 +71,6 @@ public class GameActivity extends Activity {
         return level;
     }
 
-    public Field getField() {
-        return gameController.getField();
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -115,16 +110,16 @@ public class GameActivity extends Activity {
         else if (gameController.isOnFinish(touchedCellPosition))
             return false;
 
-
         Boolean isMovedToNew = gameController.moveToPosition(this.getApplicationContext(),
                 touchedCellPosition);
         Boolean isMovedBack = gameController.moveBackIfBody(getApplicationContext(), touchedCellPosition);
         gameView.getGameLoop().setStartAnimation(this.gameController.isOnStart());
-
         Boolean needUpdate = isMovedToNew || isMovedBack;
 
-        if (needUpdate)
+        if (needUpdate) {
+            gameController.computeCurrentStartOrientation();
             gameView.updateField(gameController.getField());
+        }
 
         return false;
     }
