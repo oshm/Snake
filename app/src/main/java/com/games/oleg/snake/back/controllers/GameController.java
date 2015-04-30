@@ -67,14 +67,25 @@ public class GameController {
     }
 
     public void computeCurrentStartOrientation() {
-        if (isOnStart())
+        if (isOnStart()) {
+            getField().updateStartOrientation(CellOrientation.Invariant);
             return;
+        }
 
-        Position firstBodyPosition = this.getSnake().getFirstBodyPosition();
-        CellOrientation firstBodyOrientation = this.getField().
-                getCell(firstBodyPosition).getCellOrientation();
-        if (getField().getStartCell().getCellOrientation() != firstBodyOrientation)
-            getField().getStartCell().setCellOrientation(firstBodyOrientation);
+        if (getSnake().getSnakeLen()==1) {
+            Position headPosition = getSnake().getHeadPosition();
+            CellOrientation headOrientation = this.getField().
+                    getCell(headPosition).getCellOrientation();
+            getField().updateStartOrientation(headOrientation);
+
+            /*
+            Position firstBodyPosition = this.getSnake().getFirstBodyPosition();
+            CellOrientation firstBodyOrientation = this.getField().
+                    getCell(firstBodyPosition).getCellOrientation();
+            if (getField().getStartCell().getCellOrientation() != firstBodyOrientation)
+                getField().updateStartOrientation(firstBodyOrientation);
+                */
+        }
     }
 
     private boolean isAllFieldCovered() {

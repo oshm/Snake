@@ -56,4 +56,8 @@ public class Snake {
         return new Position(-1,-1);
     }
 
+    public int getSnakeLen() {
+        return bodyPositions.size();
+    }
+
 }

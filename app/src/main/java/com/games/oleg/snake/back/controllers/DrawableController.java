@@ -266,7 +266,7 @@ public class DrawableController {
 
         if (startDown == null) {
             startDown = BitmapFactory.decodeResource(resources, startDownId);
-            startHoleBitmap = makeBitmapTransparent(startDown, backgroundColor);
+            startDown = makeBitmapTransparent(startDown, backgroundColor);
         }
 
         if (startUp == null) {
@@ -274,11 +274,11 @@ public class DrawableController {
         }
 
         if (startLeft == null) {
-            startLeft = rotateBitmap(startDown, 270);
+            startLeft = rotateBitmap(startDown, 90);
         }
 
         if (startRight == null) {
-            startRight = rotateBitmap(startDown, 90);
+            startRight = rotateBitmap(startDown, 270);
         }
 
 
