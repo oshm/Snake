@@ -39,12 +39,13 @@ public class GameLoopThread extends Thread{
                 threadStartTime = startTime;
             }
 
-            animateStartCell(threadWorkTime);
-
             try {
                 canvas = gameView.getHolder().lockCanvas();
-                synchronized (gameView.getHolder()) {
-                gameView.drawGame(canvas);
+                if (canvas != null) {
+                    animateStartCell(threadWorkTime);
+                    synchronized (gameView.getHolder()) {
+                        gameView.drawGame(canvas);
+                    }
                 }
             } finally {
                 if (canvas != null) {

@@ -194,14 +194,6 @@ public class NewGameView extends SurfaceView implements SurfaceHolder.Callback  
         gameLoopThread.setRunning(run);
     }
 
-    /*
-    public void updateStart(int eyesVisible) {
-        if (startCell == null) {
-            startCell = new StartCell(CellType.StartCell, getContext());
-        }
-        startCell.setEyesVisible(eyesVisible);
-    }*/
-
     public GameLoopThread getGameLoop() {
         return gameLoopThread;
     }
