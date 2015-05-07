@@ -2,7 +2,6 @@ package com.games.oleg.snake.back.threads;
 
 import android.util.Log;
 
-import com.games.oleg.snake.GameView;
 import com.games.oleg.snake.NewGameView;
 import com.games.oleg.snake.back.controllers.GameController;
 
@@ -15,12 +14,11 @@ public class StartCellAnimationThread extends Thread {
     private final static int MAX_FRAME_SKIPS = 5;
     private final static int FRAME_PERIOD = 1000 / MAX_FPS;
     private boolean running = false;
-    NewGameView gameView;
     long[] stateTransitionTimes =  new long[]{2000,5000,5500,6000, 6500};
     long threadWorkTime = 0;
 
-    public StartCellAnimationThread(NewGameView gameView) {
-        this.gameView = gameView;
+    public StartCellAnimationThread() {
+
     }
 
     public void setRunning(boolean run) {

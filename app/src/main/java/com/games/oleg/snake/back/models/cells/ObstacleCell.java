@@ -21,9 +21,8 @@ public class ObstacleCell extends Cell {
     public ObstacleCell(CellType cellType, Context context) {
         super(cellType);
         this.resources = context.getResources();
-        Bitmap cellBitmap = DrawableController.getObstacleBitmap(resources);
+        Bitmap cellBitmap = DrawableController.getObstacleBitmap();
         cellDrawable = new BitmapDrawable(resources, cellBitmap);
-        cellDrawable = new BitmapDrawable(context.getResources(),cellBitmap);
     }
 
     public void drawCell(Canvas canvas, Rect bounds) {

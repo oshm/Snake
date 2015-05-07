@@ -35,10 +35,10 @@ public class GameController {
     }
 
     public void startGame(XmlResourceParser level, Context context) {
-        //this.field = new Field(size);
-
         try {
             FieldParameters parameters = xmlParser.parse(level);
+            //DrawableController.initImages(context.getResources());
+            DrawableController.initSpriteSheets(context.getResources());
             this.field = new Field(context, parameters);
 
         } catch (Exception ex) {

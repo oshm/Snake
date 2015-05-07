@@ -2,13 +2,12 @@
 <level>
     <size_x>5</size_x>
     <size_y>5</size_y>
-    <start_x>0</start_x>
-    <start_y>0</start_y>
+    <start_x>3</start_x>
+    <start_y>3</start_y>
     <finish_x>4</finish_x>
     <finish_y>4</finish_y>
     <obstacles>
         2, 2
-        3, 2
         1, 2
     </obstacles>
 </level>

@@ -1,29 +1,22 @@
 package com.games.oleg.snake.back.models;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 /**
  * Created by oleg.shlemin on 03.04.2015.
  */
-public class SpritesSheet {
+public class SpriteSheet {
     private Bitmap sheetBitmap;
     private int verticalMax;
     private int horizontalMax;
     float oneHorizontalSize;
     float oneVerticalSize;
 
-    public SpritesSheet(Context context, int sheetId, int horizontalMax, int verticalMax) {
-        this.sheetBitmap = BitmapFactory.decodeResource(context.getResources(), sheetId);
-        this.horizontalMax = horizontalMax;
-        this.verticalMax = verticalMax;
-        oneHorizontalSize = sheetBitmap.getWidth()/horizontalMax;
-        oneVerticalSize = sheetBitmap.getHeight()/verticalMax;
-    }
-
-    public SpritesSheet(Bitmap sheetBitmap, int horizontalMax, int verticalMax) {
-        this.sheetBitmap = sheetBitmap;
+    public SpriteSheet(Resources resources, int sheetId, int horizontalMax, int verticalMax) {
+        this.sheetBitmap = BitmapFactory.decodeResource(resources, sheetId);
         this.horizontalMax = horizontalMax;
         this.verticalMax = verticalMax;
         oneHorizontalSize = sheetBitmap.getWidth()/horizontalMax;
@@ -40,6 +33,12 @@ public class SpritesSheet {
                 (int)oneHorizontalSize, (int)oneVerticalSize);
 
         return croppedBmp;
+    }
+
+    public void recycleSpriteSheetBitmap() {
+        if (sheetBitmap != null) {
+            sheetBitmap.recycle();
+        }
     }
 
 

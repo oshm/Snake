@@ -80,7 +80,7 @@ public class GameLoopThread extends Thread{
 
     private void animateStartCell(long threadWorkTime) {
         if (isStartCellAnimate(threadWorkTime)) {
-            startCellAnimationThread = new StartCellAnimationThread(gameView);
+            startCellAnimationThread = new StartCellAnimationThread();
             startCellAnimationThread.setRunning(true);
             startCellAnimationThread.start();
         }
