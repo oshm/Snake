@@ -9,8 +9,6 @@ import com.games.oleg.snake.R;
 import com.games.oleg.snake.back.models.SpriteSheet;
 import com.games.oleg.snake.back.models.cells.CellOrientation;
 
-import java.util.Dictionary;
-import java.util.Enumeration;
 import java.util.HashMap;
 
 
@@ -103,9 +101,9 @@ public class DrawableController {
         return rotatedBitmap;
     }
 
-    public static Bitmap getStartBitmap(Resources resources, int eyesVisible, CellOrientation cellOrientation) {
+    public static Bitmap getStartBitmap(int eyesVisible, CellOrientation cellOrientation) {
         if (startHoleBitmap == null) {
-            initStartBitmaps(resources);
+            initStartBitmaps();
         }
 
         switch (cellOrientation) {
@@ -201,9 +199,9 @@ public class DrawableController {
         return headBitmap;
     }
 
-    public static Bitmap getTurnBitmap(Resources resources, CellOrientation bodyOrientation, CellOrientation headOrientation) {
+    public static Bitmap getTurnBitmap(CellOrientation bodyOrientation, CellOrientation headOrientation) {
         if (turnBitmap == null) {
-            initTurnBitmaps(resources);
+            initTurnBitmaps();
         }
 
         switch (bodyOrientation) {
@@ -244,8 +242,9 @@ public class DrawableController {
     public static void initImages(Resources resources) {
         initSpriteSheets(resources);
         initObstaclesBitmaps();
-        initStartBitmaps(resources);
-        initTurnBitmaps(resources);
+        initStartBitmaps();
+        initTurnBitmaps();
+        initSnakeMoveBitmaps();
     }
 
     public static void initSpriteSheets(Resources resources) {
@@ -258,12 +257,10 @@ public class DrawableController {
         }
     }
 
-    public static void initTurnBitmaps(Resources resources) {
+    public static void initTurnBitmaps() {
         if (turnBitmap == null) {
             turnBitmap = spriteSheet2.getBitmapFromPosition(2, 3);
             turnBitmap = rotateBitmap(turnBitmap, 90);
-
-            //turnBitmap = BitmapFactory.decodeResource(resources, turnId);
             turnBitmap = makeBitmapTransparent(turnBitmap, backgroundColor);
         }
 
@@ -284,42 +281,35 @@ public class DrawableController {
         }
     }
 
-    public static void initStartBitmaps(Resources resources) {
+    public static void initStartBitmaps() {
         if (startHoleBitmap == null) {
             startHoleBitmap = spriteSheet2.getBitmapFromPosition(3, 2);
-            //startHoleBitmap = BitmapFactory.decodeResource(resources, startHoleId);
             startHoleBitmap = makeBitmapTransparent(startHoleBitmap, backgroundColor);
         }
 
         if (startHoleWithEyesBitmap == null) {
             startHoleWithEyesBitmap = spriteSheet2.getBitmapFromPosition(1, 3);
-            //startHoleWithEyesBitmap = BitmapFactory.decodeResource(resources, startHoleWithEyesId);
             startHoleWithEyesBitmap = makeBitmapTransparent(startHoleWithEyesBitmap, backgroundColor);
         }
 
         if (startDown == null) {
             startDown = spriteSheet1.getBitmapFromPosition(2, 2);
-
-            //startDown = BitmapFactory.decodeResource(resources, startDownId);
             startDown = makeBitmapTransparent(startDown, backgroundColor);
         }
 
         if (startUp == null) {
             startUp = spriteSheet1.getBitmapFromPosition(2, 1);
             startUp = makeBitmapTransparent(startUp, backgroundColor);
-            //startUp = rotateBitmap(startDown, 180);
         }
 
         if (startLeft == null) {
             startLeft = spriteSheet2.getBitmapFromPosition(3, 3);
             startLeft = makeBitmapTransparent(startLeft, backgroundColor);
-            //startLeft = rotateBitmap(startDown, 90);
         }
 
         if (startRight == null) {
             startRight = spriteSheet2.getBitmapFromPosition(3, 1);
             startRight = makeBitmapTransparent(startRight, backgroundColor);
-            //startRight = rotateBitmap(startDown, 270);
         }
 
 

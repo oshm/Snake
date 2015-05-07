@@ -23,13 +23,13 @@ public class StartCell extends Cell {
         super(cellType);
         eyesVisible = HOLE_EMPTY;
         resources = context.getResources();
-        Bitmap cellBitmap = DrawableController.getStartBitmap(resources, eyesVisible, cellOrientation);
+        Bitmap cellBitmap = DrawableController.getStartBitmap(eyesVisible, cellOrientation);
         cellDrawable = new BitmapDrawable(context.getResources(),cellBitmap);
     }
 
     public void setEyesVisible(int areVisible) {
         this.eyesVisible = areVisible;
-        Bitmap cellBitmap = DrawableController.getStartBitmap(resources, eyesVisible, cellOrientation);
+        Bitmap cellBitmap = DrawableController.getStartBitmap(eyesVisible, cellOrientation);
         cellDrawable = new BitmapDrawable(this.resources,cellBitmap);
     }
 
@@ -45,7 +45,7 @@ public class StartCell extends Cell {
 
     public void setCellOrientation(CellOrientation cellOrientation) {
         super.setCellOrientation(cellOrientation);
-        Bitmap cellBitmap = DrawableController.getStartBitmap(resources, this.eyesVisible, cellOrientation);
+        Bitmap cellBitmap = DrawableController.getStartBitmap(this.eyesVisible, cellOrientation);
         cellDrawable = new BitmapDrawable(this.resources,cellBitmap);
     }
 }

@@ -28,7 +28,7 @@ public class TurnCell extends Cell {
 
     public void drawCell(Canvas canvas, Rect bounds) {
         Bitmap bitmapToDraw;
-        bitmapToDraw = DrawableController.getTurnBitmap(resources, cellOrientation, nextCellOrientation);
+        bitmapToDraw = DrawableController.getTurnBitmap(cellOrientation, nextCellOrientation);
         cellDrawable = new BitmapDrawable(resources, bitmapToDraw);
         cellDrawable.setBounds(bounds);
         cellDrawable.draw(canvas);
