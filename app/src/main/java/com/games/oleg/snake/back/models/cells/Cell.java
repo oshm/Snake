@@ -16,6 +16,7 @@ public class Cell{
     private Drawable cellDrawable;
     protected CellOrientation cellOrientation;
     protected Resources resources;
+    protected int frameNumber = 0;
 
     public Cell(CellType cellType) {
         this.cellType = cellType ;
@@ -34,6 +35,10 @@ public class Cell{
 
     public void setCellOrientation(CellOrientation cellOrientation) {
         this.cellOrientation = cellOrientation;
+    }
+
+    public void setFrameNumber(int frameNumber) {
+        this.frameNumber = frameNumber;
     }
 
 }

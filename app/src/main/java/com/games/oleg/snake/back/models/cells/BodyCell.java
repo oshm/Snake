@@ -23,7 +23,7 @@ public class BodyCell extends Cell {
 
     public void drawCell(Canvas canvas, Rect bounds) {
         Bitmap bitmapToDraw;
-        bitmapToDraw = DrawableController.getBodyBitmap(cellOrientation, resources);
+        bitmapToDraw = DrawableController.getBodyBitmap(cellOrientation, frameNumber);
         cellDrawable = new BitmapDrawable(resources, bitmapToDraw);
         cellDrawable.setBounds(bounds);
         cellDrawable.draw(canvas);

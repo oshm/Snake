@@ -3,7 +3,9 @@ package com.games.oleg.snake.back.threads;
 
 import android.util.Log;
 
+import com.games.oleg.snake.back.controllers.DrawableController;
 import com.games.oleg.snake.back.controllers.GameController;
+import com.games.oleg.snake.back.models.cells.CellOrientation;
 
 /**
  * Created by oleg.shlemin on 07.05.2015.
@@ -14,6 +16,7 @@ public class MoveSnakeAnimationThread extends Thread {
     private final static int MAX_FRAME_SKIPS = 5;
     private final static int FRAME_PERIOD = 1000 / MAX_FPS;
     private boolean running = false;
+    private int animationInterval = 1000;
     long threadWorkTime = 0;
 
     public void setRunning(boolean run) {
@@ -30,18 +33,22 @@ public class MoveSnakeAnimationThread extends Thread {
         sleepTime = 0;
 
         threadStartTime = System.currentTimeMillis();
-        while (running) {
+        while (running && threadWorkTime < animationInterval*6 ) {
             beginTime = System.currentTimeMillis();
             threadWorkTime = System.currentTimeMillis() - threadStartTime;
 
-
             // update game state
+            int frameNumber = (int) (threadWorkTime/animationInterval) + 1;
+            if (frameNumber > 3) {
+                frameNumber = 0;
+            }
 
-
-
-
-
-
+            if (frameNumber < 0) {
+                frameNumber = 0;
+            }
+            GameController.getInstance().getField().getCell(
+                    GameController.getInstance().getSnake().getLastBodyPosition()).
+                    setFrameNumber(frameNumber);
 
             // calculate how long did the cycle take
             timeDiff = System.currentTimeMillis() - beginTime;

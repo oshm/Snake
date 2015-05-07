@@ -13,6 +13,7 @@ import android.view.Window;
 
 import com.games.oleg.snake.back.controllers.GameController;
 import com.games.oleg.snake.back.models.Position;
+import com.games.oleg.snake.back.threads.MoveSnakeAnimationThread;
 
 
 public class GameActivity extends Activity {
@@ -119,6 +120,12 @@ public class GameActivity extends Activity {
         if (needUpdate) {
             gameController.computeCurrentStartOrientation();
             gameView.updateField(gameController.getField());
+        }
+
+        if (isMovedToNew) {
+            MoveSnakeAnimationThread moveSnakeAnimationThread = new MoveSnakeAnimationThread();
+            moveSnakeAnimationThread.setRunning(true);
+            moveSnakeAnimationThread.start();
         }
 
         return false;

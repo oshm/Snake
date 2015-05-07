@@ -136,9 +136,13 @@ public class DrawableController {
         return stoneBitmap;
     }
 
-    public static Bitmap getBodyBitmap(CellOrientation cellOrientation, Resources resources) {
+    public static Bitmap getBodyBitmap(CellOrientation cellOrientation, int frameNumber) {
         if (bodyBitmap == null) {
             initSnakeBitmaps();
+        }
+
+        if (frameNumber!=0) {
+            return getBodyAnimationFrame(cellOrientation, frameNumber);
         }
 
         switch (cellOrientation) {
@@ -237,6 +241,13 @@ public class DrawableController {
 
         }
 
+    }
+
+    public static Bitmap getBodyAnimationFrame(CellOrientation orientation, int frameNumber) {
+        if (bodyAnimationBitmaps == null)
+            initSnakeMoveBitmaps();
+
+        return bodyAnimationBitmaps.get(orientation)[frameNumber];
     }
 
     public static void initImages(Resources resources) {
@@ -340,34 +351,40 @@ public class DrawableController {
     public static void initSnakeMoveBitmaps() {
         if (bodyAnimationBitmaps == null) {
             if (bodyAnimationsDown == null) {
-                bodyAnimationsDown = new Bitmap[3];
-                bodyAnimationsDown[0] = spriteSheet2.getBitmapFromPosition(4,1);
+                bodyAnimationsDown = new Bitmap[4];
+                bodyAnimationsDown[0] = spriteSheet1.getBitmapFromPosition(1, 1);
+                bodyAnimationsDown[0] = DrawableController.rotateBitmap(bodyAnimationsDown[0], 180);
                 bodyAnimationsDown[0] = makeBitmapTransparent(bodyAnimationsDown[0], backgroundColor);
-                bodyAnimationsDown[1] = spriteSheet2.getBitmapFromPosition(4,2);
-                bodyAnimationsDown[1] = makeBitmapTransparent(bodyAnimationsDown[1], backgroundColor);
-                bodyAnimationsDown[2] = spriteSheet2.getBitmapFromPosition(4,3);
-                bodyAnimationsDown[2] = makeBitmapTransparent(bodyAnimationsDown[2], backgroundColor);
+                bodyAnimationsDown[1] = spriteSheet2.getBitmapFromPosition(4,1);
+                bodyAnimationsDown[1] = makeBitmapTransparent(bodyAnimationsDown[0], backgroundColor);
+                bodyAnimationsDown[2] = spriteSheet2.getBitmapFromPosition(4,2);
+                bodyAnimationsDown[2] = makeBitmapTransparent(bodyAnimationsDown[1], backgroundColor);
+                bodyAnimationsDown[3] = spriteSheet2.getBitmapFromPosition(4,3);
+                bodyAnimationsDown[3] = makeBitmapTransparent(bodyAnimationsDown[2], backgroundColor);
             }
 
             if (bodyAnimationsUp == null) {
-                bodyAnimationsUp = new Bitmap[3];
+                bodyAnimationsUp = new Bitmap[4];
                 bodyAnimationsUp[0] = rotateBitmap(bodyAnimationsDown[0], 180);
                 bodyAnimationsUp[1] = rotateBitmap(bodyAnimationsDown[0], 180);
                 bodyAnimationsUp[2] = rotateBitmap(bodyAnimationsDown[0], 180);
+                bodyAnimationsUp[3] = rotateBitmap(bodyAnimationsDown[0], 180);
             }
 
             if (bodyAnimationsLeft == null) {
-                bodyAnimationsLeft = new Bitmap[3];
+                bodyAnimationsLeft = new Bitmap[4];
                 bodyAnimationsLeft[0] = rotateBitmap(bodyAnimationsDown[0], 270);
                 bodyAnimationsLeft[1] = rotateBitmap(bodyAnimationsDown[0], 270);
                 bodyAnimationsLeft[2] = rotateBitmap(bodyAnimationsDown[0], 270);
+                bodyAnimationsLeft[3] = rotateBitmap(bodyAnimationsDown[0], 270);
             }
 
             if (bodyAnimationsRight == null) {
-                bodyAnimationsRight = new Bitmap[3];
+                bodyAnimationsRight = new Bitmap[4];
                 bodyAnimationsRight[0] = rotateBitmap(bodyAnimationsDown[0], 90);
                 bodyAnimationsRight[1] = rotateBitmap(bodyAnimationsDown[0], 90);
                 bodyAnimationsRight[2] = rotateBitmap(bodyAnimationsDown[0], 90);
+                bodyAnimationsRight[3] = rotateBitmap(bodyAnimationsDown[0], 90);
             }
 
             bodyAnimationBitmaps = new HashMap<CellOrientation, Bitmap[]>();
