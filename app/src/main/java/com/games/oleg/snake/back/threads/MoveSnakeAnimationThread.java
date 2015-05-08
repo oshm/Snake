@@ -16,7 +16,7 @@ public class MoveSnakeAnimationThread extends Thread {
     private final static int MAX_FRAME_SKIPS = 5;
     private final static int FRAME_PERIOD = 1000 / MAX_FPS;
     private boolean running = false;
-    private int animationInterval = 1000;
+    private int animationInterval = 50;
     long threadWorkTime = 0;
 
     public void setRunning(boolean run) {
@@ -33,12 +33,13 @@ public class MoveSnakeAnimationThread extends Thread {
         sleepTime = 0;
 
         threadStartTime = System.currentTimeMillis();
-        while (running && threadWorkTime < animationInterval*6 ) {
+        while (running && threadWorkTime < animationInterval*4 ) {
             beginTime = System.currentTimeMillis();
             threadWorkTime = System.currentTimeMillis() - threadStartTime;
 
             // update game state
-            int frameNumber = (int) (threadWorkTime/animationInterval) + 1;
+            int x = ((int) (threadWorkTime/animationInterval));
+            int frameNumber = ((int) (threadWorkTime/animationInterval)) + 1;
             if (frameNumber > 3) {
                 frameNumber = 0;
             }
