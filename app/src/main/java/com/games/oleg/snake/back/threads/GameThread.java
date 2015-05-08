@@ -1,24 +1,27 @@
 package com.games.oleg.snake.back.threads;
 
-
 import android.util.Log;
 
-import com.games.oleg.snake.back.controllers.GameController;
 
 /**
- * Created by oleg.shlemin on 07.05.2015.
+ * Created by oleg.shlemin on 08.05.2015.
  */
-public class MoveSnakeAnimationThread extends Thread {
-    private final static String TAG = "MoveSnakeAnimation";
-    public final static int MAX_FPS = 50;
+public class GameThread extends Thread  {
+    protected static String TAG = "MoveSnakeAnimation";
+    private final static int MAX_FPS = 50;
     private final static int MAX_FRAME_SKIPS = 5;
     private final static int FRAME_PERIOD = 1000 / MAX_FPS;
     private boolean running = false;
-    private int animationInterval = 50;
     long threadWorkTime = 0;
 
     public void setRunning(boolean run) {
         running = run;
+    }
+
+    protected void threadAction() {};
+
+    protected boolean getCondition() {
+        return running;
     }
 
     @Override
@@ -31,23 +34,12 @@ public class MoveSnakeAnimationThread extends Thread {
         sleepTime = 0;
 
         threadStartTime = System.currentTimeMillis();
-        while (running && threadWorkTime < animationInterval*4 ) {
+        while (getCondition() ) {
             beginTime = System.currentTimeMillis();
             threadWorkTime = System.currentTimeMillis() - threadStartTime;
 
-            // update game state
-            int x = ((int) (threadWorkTime/animationInterval));
-            int frameNumber = ((int) (threadWorkTime/animationInterval)) + 1;
-            if (frameNumber > 3) {
-                frameNumber = 0;
-            }
-
-            if (frameNumber < 0) {
-                frameNumber = 0;
-            }
-            GameController.getInstance().getField().getCell(
-                    GameController.getInstance().getSnake().getLastBodyPosition()).
-                    setFrameNumber(frameNumber);
+            // Make action, thread was created for
+            threadAction();
 
             // calculate how long did the cycle take
             timeDiff = System.currentTimeMillis() - beginTime;
@@ -66,5 +58,4 @@ public class MoveSnakeAnimationThread extends Thread {
         }
         this.setRunning(false);
     }
-
 }
