@@ -24,18 +24,7 @@ public class DrawableController {
     private static SpriteSheet spriteSheet1;
     private static SpriteSheet spriteSheet2;
 
-    private static Bitmap headBitmap;
-    private static Bitmap headBitmapUp;
-    private static Bitmap headBitmapDown;
-    private static Bitmap headBitmapLeft;
-    private static Bitmap headBitmapRight;
-
-    private static Bitmap bodyBitmap;
-    private static Bitmap bodyBitmapUp;
-    private static Bitmap bodyBitmapDown;
-    private static Bitmap bodyBitmapLeft;
-    private static Bitmap bodyBitmapRight;
-
+    private static Bitmap emptyTransparentBitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
     private static Bitmap turnBitmap;
     private static Bitmap turnBitmapUpLeft;
     private static Bitmap turnBitmapUpRight;
@@ -51,11 +40,17 @@ public class DrawableController {
     private static Bitmap startLeft;
     private static Bitmap startRight;
 
-    private static HashMap<CellOrientation, Bitmap[]> bodyAnimationBitmaps;
-    private static Bitmap[] bodyAnimationsDown;
-    private static Bitmap[] bodyAnimationsUp;
-    private static Bitmap[] bodyAnimationsLeft;
-    private static Bitmap[] bodyAnimationsRight;
+    private static HashMap<CellOrientation, Bitmap[]> headBitmaps;
+    private static Bitmap[] headBitmapsDown;
+    private static Bitmap[] headBitmapsUp;
+    private static Bitmap[] headBitmapsLeft;
+    private static Bitmap[] headBitmapsRight;
+
+    private static HashMap<CellOrientation, Bitmap[]> bodyBitmaps;
+    private static Bitmap[] bodyBitmapsDown;
+    private static Bitmap[] bodyBitmapsUp;
+    private static Bitmap[] bodyBitmapsLeft;
+    private static Bitmap[] bodyBitmapsRight;
 
 
 
@@ -137,70 +132,18 @@ public class DrawableController {
     }
 
     public static Bitmap getBodyBitmap(CellOrientation cellOrientation, int frameNumber) {
-        if (bodyBitmap == null) {
-            initSnakeBitmaps();
-        }
+        if (bodyBitmaps == null)
+            initBodyBitmaps();
 
-        if (frameNumber!=0) {
-            return getBodyAnimationFrame(cellOrientation, frameNumber);
-        }
-
-        switch (cellOrientation) {
-            case Up: {
-                if (bodyBitmapUp == null)
-                    bodyBitmapUp = rotateBitmap(bodyBitmap, cellOrientation);
-                return bodyBitmapUp;
-            }
-            case Down: {
-                if (bodyBitmapDown == null)
-                    bodyBitmapDown = rotateBitmap(bodyBitmap, cellOrientation);
-                return bodyBitmapDown;
-            }
-            case Left: {
-                if (bodyBitmapLeft == null)
-                    bodyBitmapLeft = rotateBitmap(bodyBitmap, cellOrientation);
-                return bodyBitmapLeft;
-            }
-            case Right: {
-                if (bodyBitmapRight == null)
-                    bodyBitmapRight = rotateBitmap(bodyBitmap, cellOrientation);
-                return bodyBitmapRight;
-            }
-        }
-
-        return bodyBitmap;
+        return bodyBitmaps.get(cellOrientation)[frameNumber];
     }
 
-    public static Bitmap getHeadBitmap(CellOrientation cellOrientation, Resources resources) {
-        if (headBitmap == null) {
-            initSnakeBitmaps();
+    public static Bitmap getHeadBitmap(CellOrientation cellOrientation, int frameNumber) {
+        if (headBitmaps == null) {
+            initHeadBitmaps();
         }
 
-        switch (cellOrientation) {
-            case Up: {
-                if (headBitmapUp == null)
-                    headBitmapUp = rotateBitmap(headBitmap, cellOrientation);
-                return headBitmapUp;
-            }
-            case Down: {
-                if (headBitmapDown == null)
-                    headBitmapDown = rotateBitmap(headBitmap, cellOrientation);
-                return headBitmapDown;
-            }
-            case Left: {
-                if (headBitmapLeft == null)
-                    headBitmapLeft = rotateBitmap(headBitmap, cellOrientation);
-
-                return headBitmapLeft;
-            }
-            case Right: {
-                if (headBitmapRight == null)
-                    headBitmapRight = rotateBitmap(headBitmap, cellOrientation);
-                return headBitmapRight;
-            }
-        }
-
-        return headBitmap;
+        return headBitmaps.get(cellOrientation)[frameNumber];
     }
 
     public static Bitmap getTurnBitmap(CellOrientation bodyOrientation, CellOrientation headOrientation) {
@@ -243,19 +186,12 @@ public class DrawableController {
 
     }
 
-    public static Bitmap getBodyAnimationFrame(CellOrientation orientation, int frameNumber) {
-        if (bodyAnimationBitmaps == null)
-            initSnakeMoveBitmaps();
-
-        return bodyAnimationBitmaps.get(orientation)[frameNumber];
-    }
-
     public static void initImages(Resources resources) {
         initSpriteSheets(resources);
         initObstaclesBitmaps();
         initStartBitmaps();
         initTurnBitmaps();
-        initSnakeMoveBitmaps();
+        initBodyBitmaps();
     }
 
     public static void initSpriteSheets(Resources resources) {
@@ -335,63 +271,95 @@ public class DrawableController {
     }
 
     public static void initSnakeBitmaps() {
-        if (headBitmap == null) {
-            headBitmap = spriteSheet1.getBitmapFromPosition(1, 2);
-            headBitmap = DrawableController.rotateBitmap(headBitmap, 180);
-            headBitmap = makeBitmapTransparent(headBitmap, backgroundColor);
-        }
+        initHeadBitmaps();
+        initBodyBitmaps();
+    }
 
-        if (bodyBitmap == null) {
-            bodyBitmap = spriteSheet1.getBitmapFromPosition(1, 1);
-            bodyBitmap = DrawableController.rotateBitmap(bodyBitmap, 180);
-            bodyBitmap = makeBitmapTransparent(bodyBitmap, backgroundColor);
+    public static void initHeadBitmaps() {
+        if (headBitmaps == null) {
+            if (headBitmapsDown == null) {
+                headBitmapsDown = new Bitmap[3];
+                headBitmapsDown[0] = spriteSheet2.getBitmapFromPosition(1,2);
+                headBitmapsDown[0] = makeBitmapTransparent(headBitmapsDown[0], backgroundColor);
+                headBitmapsDown[1] = emptyTransparentBitmap;
+                headBitmapsDown[2] = spriteSheet2.getBitmapFromPosition(1,7);
+                headBitmapsDown[2] = makeBitmapTransparent(headBitmapsDown[2], backgroundColor);
+            }
+
+            if (headBitmapsUp == null) {
+                headBitmapsUp = new Bitmap[3];
+                headBitmapsUp[0] = rotateBitmap(headBitmapsDown[0], 180);
+                headBitmapsUp[1] = rotateBitmap(headBitmapsDown[1], 180);
+                headBitmapsUp[2] = rotateBitmap(headBitmapsDown[2], 180);
+            }
+
+            if (headBitmapsLeft == null) {
+                headBitmapsLeft = new Bitmap[3];
+                headBitmapsLeft[0] = rotateBitmap(headBitmapsDown[0], 90);
+                headBitmapsLeft[1] = rotateBitmap(headBitmapsDown[1], 90);
+                headBitmapsLeft[2] = rotateBitmap(headBitmapsDown[2], 90);
+
+            }
+
+            if (headBitmapsRight == null) {
+                headBitmapsRight = new Bitmap[3];
+                headBitmapsRight[0] = rotateBitmap(headBitmapsDown[0], 270);
+                headBitmapsRight[1] = rotateBitmap(headBitmapsDown[1], 270);
+                headBitmapsRight[2] = rotateBitmap(headBitmapsDown[2], 270);
+            }
+
+            headBitmaps = new HashMap<CellOrientation, Bitmap[]>();
+            headBitmaps.put(CellOrientation.Down, headBitmapsDown);
+            headBitmaps.put(CellOrientation.Up, headBitmapsUp);
+            headBitmaps.put(CellOrientation.Left, headBitmapsLeft);
+            headBitmaps.put(CellOrientation.Right, headBitmapsRight);
         }
     }
 
-    public static void initSnakeMoveBitmaps() {
-        if (bodyAnimationBitmaps == null) {
-            if (bodyAnimationsDown == null) {
-                bodyAnimationsDown = new Bitmap[4];
-                bodyAnimationsDown[0] = spriteSheet1.getBitmapFromPosition(1, 1);
-                bodyAnimationsDown[0] = DrawableController.rotateBitmap(bodyAnimationsDown[0], 180);
-                bodyAnimationsDown[0] = makeBitmapTransparent(bodyAnimationsDown[0], backgroundColor);
-                bodyAnimationsDown[1] = spriteSheet2.getBitmapFromPosition(4,1);
-                bodyAnimationsDown[1] = makeBitmapTransparent(bodyAnimationsDown[1], backgroundColor);
-                bodyAnimationsDown[2] = spriteSheet2.getBitmapFromPosition(4,2);
-                bodyAnimationsDown[2] = makeBitmapTransparent(bodyAnimationsDown[2], backgroundColor);
-                bodyAnimationsDown[3] = spriteSheet2.getBitmapFromPosition(4,3);
-                bodyAnimationsDown[3] = makeBitmapTransparent(bodyAnimationsDown[3], backgroundColor);
+    public static void initBodyBitmaps() {
+        if (bodyBitmaps == null) {
+            if (bodyBitmapsDown == null) {
+                bodyBitmapsDown = new Bitmap[4];
+                bodyBitmapsDown[0] = spriteSheet1.getBitmapFromPosition(1, 1);
+                bodyBitmapsDown[0] = DrawableController.rotateBitmap(bodyBitmapsDown[0], 180);
+                bodyBitmapsDown[0] = makeBitmapTransparent(bodyBitmapsDown[0], backgroundColor);
+                bodyBitmapsDown[1] = spriteSheet2.getBitmapFromPosition(4,1);
+                bodyBitmapsDown[1] = makeBitmapTransparent(bodyBitmapsDown[1], backgroundColor);
+                bodyBitmapsDown[2] = spriteSheet2.getBitmapFromPosition(4,2);
+                bodyBitmapsDown[2] = makeBitmapTransparent(bodyBitmapsDown[2], backgroundColor);
+                bodyBitmapsDown[3] = spriteSheet2.getBitmapFromPosition(4,3);
+                bodyBitmapsDown[3] = makeBitmapTransparent(bodyBitmapsDown[3], backgroundColor);
             }
 
-            if (bodyAnimationsUp == null) {
-                bodyAnimationsUp = new Bitmap[4];
-                bodyAnimationsUp[0] = rotateBitmap(bodyAnimationsDown[0], 180);
-                bodyAnimationsUp[1] = rotateBitmap(bodyAnimationsDown[1], 180);
-                bodyAnimationsUp[2] = rotateBitmap(bodyAnimationsDown[2], 180);
-                bodyAnimationsUp[3] = rotateBitmap(bodyAnimationsDown[3], 180);
+            if (bodyBitmapsUp == null) {
+                bodyBitmapsUp = new Bitmap[4];
+                bodyBitmapsUp[0] = rotateBitmap(bodyBitmapsDown[0], 180);
+                bodyBitmapsUp[1] = rotateBitmap(bodyBitmapsDown[1], 180);
+                bodyBitmapsUp[2] = rotateBitmap(bodyBitmapsDown[2], 180);
+                bodyBitmapsUp[3] = rotateBitmap(bodyBitmapsDown[3], 180);
             }
 
-            if (bodyAnimationsLeft == null) {
-                bodyAnimationsLeft = new Bitmap[4];
-                bodyAnimationsLeft[0] = rotateBitmap(bodyAnimationsDown[0], 270);
-                bodyAnimationsLeft[1] = rotateBitmap(bodyAnimationsDown[1], 270);
-                bodyAnimationsLeft[2] = rotateBitmap(bodyAnimationsDown[2], 270);
-                bodyAnimationsLeft[3] = rotateBitmap(bodyAnimationsDown[3], 270);
+            if (bodyBitmapsLeft == null) {
+                bodyBitmapsLeft = new Bitmap[4];
+                bodyBitmapsLeft[0] = rotateBitmap(bodyBitmapsDown[0], 90);
+                bodyBitmapsLeft[1] = rotateBitmap(bodyBitmapsDown[1], 90);
+                bodyBitmapsLeft[2] = rotateBitmap(bodyBitmapsDown[2], 90);
+                bodyBitmapsLeft[3] = rotateBitmap(bodyBitmapsDown[3], 90);
             }
 
-            if (bodyAnimationsRight == null) {
-                bodyAnimationsRight = new Bitmap[4];
-                bodyAnimationsRight[0] = rotateBitmap(bodyAnimationsDown[0], 90);
-                bodyAnimationsRight[1] = rotateBitmap(bodyAnimationsDown[1], 90);
-                bodyAnimationsRight[2] = rotateBitmap(bodyAnimationsDown[2], 90);
-                bodyAnimationsRight[3] = rotateBitmap(bodyAnimationsDown[3], 90);
+            if (bodyBitmapsRight == null) {
+                bodyBitmapsRight = new Bitmap[4];
+                bodyBitmapsRight[0] = rotateBitmap(bodyBitmapsDown[0], 270);
+                bodyBitmapsRight[1] = rotateBitmap(bodyBitmapsDown[1], 270);
+                bodyBitmapsRight[2] = rotateBitmap(bodyBitmapsDown[2], 270);
+                bodyBitmapsRight[3] = rotateBitmap(bodyBitmapsDown[3], 270);
             }
 
-            bodyAnimationBitmaps = new HashMap<CellOrientation, Bitmap[]>();
-            bodyAnimationBitmaps.put(CellOrientation.Down, bodyAnimationsDown);
-            bodyAnimationBitmaps.put(CellOrientation.Up, bodyAnimationsUp);
-            bodyAnimationBitmaps.put(CellOrientation.Left, bodyAnimationsLeft);
-            bodyAnimationBitmaps.put(CellOrientation.Right, bodyAnimationsRight);
+            bodyBitmaps = new HashMap<CellOrientation, Bitmap[]>();
+            bodyBitmaps.put(CellOrientation.Down, bodyBitmapsDown);
+            bodyBitmaps.put(CellOrientation.Up, bodyBitmapsUp);
+            bodyBitmaps.put(CellOrientation.Left, bodyBitmapsLeft);
+            bodyBitmaps.put(CellOrientation.Right, bodyBitmapsRight);
         }
 
     }

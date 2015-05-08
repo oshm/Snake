@@ -7,12 +7,12 @@ import android.util.Log;
  * Created by oleg.shlemin on 08.05.2015.
  */
 public class GameThread extends Thread  {
-    protected static String TAG = "MoveSnakeAnimation";
+    protected String TAG = "MoveSnakeAnimation";
     private final static int MAX_FPS = 50;
     private final static int MAX_FRAME_SKIPS = 5;
     private final static int FRAME_PERIOD = 1000 / MAX_FPS;
-    private boolean running = false;
-    long threadWorkTime = 0;
+    protected boolean running = false;
+    protected long threadWorkTime = 0;
 
     public void setRunning(boolean run) {
         running = run;
@@ -20,7 +20,7 @@ public class GameThread extends Thread  {
 
     protected void threadAction() {};
 
-    protected boolean getCondition() {
+    protected boolean threadCondition() {
         return running;
     }
 
@@ -34,7 +34,7 @@ public class GameThread extends Thread  {
         sleepTime = 0;
 
         threadStartTime = System.currentTimeMillis();
-        while (getCondition() ) {
+        while (threadCondition() ) {
             beginTime = System.currentTimeMillis();
             threadWorkTime = System.currentTimeMillis() - threadStartTime;
 

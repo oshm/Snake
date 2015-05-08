@@ -24,7 +24,7 @@ public class HeadCell extends Cell {
 
     public void drawCell(Canvas canvas, Rect bounds) {
         Bitmap bitmapToDraw;
-        bitmapToDraw = DrawableController.getHeadBitmap(cellOrientation, resources);
+        bitmapToDraw = DrawableController.getHeadBitmap(cellOrientation, frameNumber);
         cellDrawable = new BitmapDrawable(resources, bitmapToDraw);
         cellDrawable.setBounds(bounds);
         cellDrawable.draw(canvas);
