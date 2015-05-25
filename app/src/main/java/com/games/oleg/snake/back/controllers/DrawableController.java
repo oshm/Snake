@@ -46,15 +46,12 @@ public class DrawableController {
     private static Bitmap[] headBitmapsLeft;
     private static Bitmap[] headBitmapsRight;
 
+    private static final int BODY_FRAMES_MAX = 4;
     private static HashMap<CellOrientation, Bitmap[]> bodyBitmaps;
     private static Bitmap[] bodyBitmapsDown;
     private static Bitmap[] bodyBitmapsUp;
     private static Bitmap[] bodyBitmapsLeft;
     private static Bitmap[] bodyBitmapsRight;
-
-
-
-    private static Bitmap[] headMovedBitmaps;
 
 
     public static Bitmap makeBitmapTransparent(Bitmap bit, int transparentColor) {
@@ -259,8 +256,6 @@ public class DrawableController {
             startRight = makeBitmapTransparent(startRight, backgroundColor);
         }
 
-
-
     }
 
     public static void initObstaclesBitmaps() {
@@ -278,34 +273,37 @@ public class DrawableController {
     public static void initHeadBitmaps() {
         if (headBitmaps == null) {
             if (headBitmapsDown == null) {
-                headBitmapsDown = new Bitmap[3];
+                headBitmapsDown = new Bitmap[4];
                 headBitmapsDown[0] = spriteSheet2.getBitmapFromPosition(1,2);
                 headBitmapsDown[0] = makeBitmapTransparent(headBitmapsDown[0], backgroundColor);
                 headBitmapsDown[1] = emptyTransparentBitmap;
-                headBitmapsDown[2] = spriteSheet2.getBitmapFromPosition(1,7);
-                headBitmapsDown[2] = makeBitmapTransparent(headBitmapsDown[2], backgroundColor);
+                headBitmapsDown[2] = emptyTransparentBitmap;
+                headBitmapsDown[3] = spriteSheet2.getBitmapFromPosition(1,7);
+                headBitmapsDown[3] = makeBitmapTransparent(headBitmapsDown[3], backgroundColor);
             }
 
             if (headBitmapsUp == null) {
-                headBitmapsUp = new Bitmap[3];
+                headBitmapsUp = new Bitmap[4];
                 headBitmapsUp[0] = rotateBitmap(headBitmapsDown[0], 180);
                 headBitmapsUp[1] = rotateBitmap(headBitmapsDown[1], 180);
                 headBitmapsUp[2] = rotateBitmap(headBitmapsDown[2], 180);
+                headBitmapsUp[3] = rotateBitmap(headBitmapsDown[3], 180);
             }
 
             if (headBitmapsLeft == null) {
-                headBitmapsLeft = new Bitmap[3];
+                headBitmapsLeft = new Bitmap[4];
                 headBitmapsLeft[0] = rotateBitmap(headBitmapsDown[0], 90);
                 headBitmapsLeft[1] = rotateBitmap(headBitmapsDown[1], 90);
                 headBitmapsLeft[2] = rotateBitmap(headBitmapsDown[2], 90);
-
+                headBitmapsLeft[3] = rotateBitmap(headBitmapsDown[3], 90);
             }
 
             if (headBitmapsRight == null) {
-                headBitmapsRight = new Bitmap[3];
+                headBitmapsRight = new Bitmap[4];
                 headBitmapsRight[0] = rotateBitmap(headBitmapsDown[0], 270);
                 headBitmapsRight[1] = rotateBitmap(headBitmapsDown[1], 270);
                 headBitmapsRight[2] = rotateBitmap(headBitmapsDown[2], 270);
+                headBitmapsRight[3] = rotateBitmap(headBitmapsDown[3], 270);
             }
 
             headBitmaps = new HashMap<CellOrientation, Bitmap[]>();

@@ -1,12 +1,11 @@
 package com.games.oleg.snake.back.threads;
 
-
 import com.games.oleg.snake.back.controllers.GameController;
 
 /**
- * Created by oleg.shlemin on 07.05.2015.
+ * Created by oleg on 18.05.15.
  */
-public class MoveSnakeAnimationThread extends GameThread {
+public class MoveSnakeBackAnimationThread extends GameThread {
     protected final String TAG = "MoveSnakeAnimation";
     private final int ANIMATION_INTERVAL = 50;
     private final int MAX_FRAME_NUMBER = 3;
@@ -34,6 +33,6 @@ public class MoveSnakeAnimationThread extends GameThread {
 
     @Override
     protected boolean threadCondition() {
-        return (running && threadWorkTime < ANIMATION_INTERVAL *4);
+        return (running && threadWorkTime < ANIMATION_INTERVAL*4);
     }
 }
